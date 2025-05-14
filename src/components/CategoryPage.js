@@ -6,10 +6,10 @@ import '../styles.css';
 // Имитация данных для всех категорий
 const sampleData = {
   salads: [
-    { id: 1, name: "Салат Цезарь", price: "10$", composition: "Курица, салат, пармезан", image: "/assets/salad1.jpg" },
-    { id: 2, name: "Греческий", price: "12$", composition: "Оливки, фета, помидоры", image: "/assets/salad2.jpg" },
-    { id: 3, name: "Овощной", price: "8$", composition: "Микс свежих овощей", image: "/assets/salad3.jpg" },
-    { id: 4, name: "Салат с креветками", price: "15$", composition: "Креветки, салат, лимон", image: "/assets/salad4.jpg" },
+    { id: 1, name: "Салат Цезарь", price: "10$", composition: "Курица, салат, пармезан", image: "/images/cesar.jpg" },
+    { id: 2, name: "Греческий", price: "12$", composition: "Оливки, фета, помидоры", image: "/images/greek.jpg" },
+    { id: 3, name: "Овощной", price: "8$", composition: "Микс свежих овощей", image: "/images/vegi.jpg" },
+    { id: 4, name: "Салат с креветками", price: "15$", composition: "Креветки, салат, лимон", image: "/images/photo_1_2025-05-12_17-38-58.jpg" },
   ],
   snacks: [
     { id: 11, name: "Картофель фри", price: "5$", composition: "Картофель, соль", image: "/assets/snack1.jpg" },

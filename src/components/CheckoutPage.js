@@ -14,7 +14,6 @@ const CheckoutPage = () => {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const navigate = useNavigate();
 
-
   const validateInputs = () => {
     const nameRegex = /^[А-Яа-яЁё\s]+$/;
     const addressRegex = /^[А-Яа-яA-Za-z0-9\s.,/-]+$/;
@@ -56,6 +55,33 @@ const CheckoutPage = () => {
     <div className="checkout-page">
       <h1>Оформление заказа</h1>
       <div className="checkout-container">
+        {/* Блок с заказанными блюдами перенесен вверх */}
+        <div className="order-summary">
+          <h2>Ваш заказ</h2>
+          {cartItems.length === 0 ? (
+            <p>Ваша корзина пуста.</p>
+          ) : (
+            <div className="order-items-block">
+              {cartItems.map(item => (
+                <div key={item.id} className="order-summary-item">
+                  <div
+                    className="order-item-image"
+                    style={{ backgroundImage: `url(${item.image})` }}
+                  ></div>
+                  <div className="order-item-details">
+                    <p>{item.name}</p>
+                    <p>
+                      {item.price} x {item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              <div className="order-total">Итого: {getTotalPrice()}$</div>
+            </div>
+          )}
+        </div>
+
+        {/* Блок с формой для доставки размещен ниже */}
         <div className="order-form">
           <h2>Введите ваши данные</h2>
           <form onSubmit={handleSubmit}>
@@ -95,36 +121,12 @@ const CheckoutPage = () => {
             </button>
           </form>
         </div>
-        <div className="order-summary">
-          <h2>Ваш заказ</h2>
-          {cartItems.length === 0 ? (
-            <p>Ваша корзина пуста.</p>
-          ) : (
-            <div>
-              {cartItems.map(item => (
-                <div key={item.id} className="order-summary-item">
-                  <div
-                    className="order-item-image"
-                    style={{ backgroundImage: `url(${item.image})` }}
-                  ></div>
-                  <div className="order-item-details">
-                    <p>{item.name}</p>
-                    <p>
-                      {item.price} x {item.quantity}
-                    </p>
-                  </div>
-                </div>
-              ))}
-              <div className="order-total">Итого: {getTotalPrice()}$</div>
-            </div>
-          )}
-        </div>
       </div>
       {orderPlaced && (
         <div className="order-confirmation-overlay">
           <div className="order-confirmation-modal">
             <p>Ваш заказ оформлен</p>
-            <p>Ожидайте заказ в течении 1ч20мин</p>
+            <p>Ожидайте заказ в течение 1ч20мин</p>
             <button className="main-button" onClick={handleMainButton}>
               Главная
             </button>

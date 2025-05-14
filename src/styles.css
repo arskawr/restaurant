@@ -461,30 +461,106 @@ body {
 /* ===== Стили для страницы оформления заказа ===== */
 .checkout-page {
   padding: 20px;
-  margin-top: 70px;
+  margin-top: 0px; /* учитываем фиксированный header */
+  background: #f9f9f9;
 }
 
 .checkout-page h1 {
   text-align: center;
   margin-bottom: 30px;
+  font-size: 28px;
+  color: #333;
 }
 
+/* Контейнер для сводки заказа и формы, располагается вертикально */
 .checkout-container {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 30px;
 }
 
-.order-form {
-  flex: 1 1 400px;
+/* ===== Сводка заказа ===== */
+.order-summary {
   padding: 20px;
-  border: 1px solid #ccc;
   background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2 {
+  
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+/* Контейнер для заказанных блюд — горизонтальное расположение с прокруткой */
+.order-items-block {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+/* Каждый элемент заказа (блюдо) */
+.order-summary-item {
+  flex: 0 0 auto;
+  width: 200px;
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.order-summary-item:hover {
+  transform: scale(1.02);
+}
+
+/* Изображение блюда — увеличенные размеры, закругленные края */
+.order-item-image {
+  width: 180px;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Детали блюда */
+.order-item-details p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Итоговая сумма заказа */
+.order-total {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: right;
+}
+
+
+/* ===== Форма для доставки ===== */
+.order-form {
+  /*max-width: 600px;*/
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .order-form h2 {
   margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
 }
 
 .form-group {
@@ -495,11 +571,16 @@ body {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: #333;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   box-sizing: border-box;
 }
 
@@ -515,43 +596,18 @@ body {
   background: #28a745;
   color: #fff;
   border: none;
-  padding: 10px;
+  padding: 12px;
   width: 100%;
   cursor: pointer;
   font-size: 16px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
-/* ===== Сводка заказа ===== */
-.order-summary {
-  flex: 1 1 300px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  background: #fff;
+.submit-order:hover {
+  background: #218838;
 }
 
-.order-summary h2 {
-  margin-top: 0;
-}
-
-.order-summary-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.order-item-image {
-  width: 50px;
-  height: 50px;
-  background-size: cover;
-  background-position: center;
-  margin-right: 10px;
-}
-
-.order-total {
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 10px;
-}
 
 /* ===== Окно подтверждения заказа ===== */
 .order-confirmation-overlay {
