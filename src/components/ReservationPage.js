@@ -69,7 +69,12 @@ const ReservationPage = () => {
   };
 
   return (
-    <div className="reservation-page">
+    <div
+      className="reservation-page"
+      style={{
+        
+      }}
+    >
       <h1>Бронирование столика</h1>
       <div className="reservation-container">
         <div className="reservation-form">

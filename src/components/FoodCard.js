@@ -3,17 +3,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../context/CartContext';
 import '../styles.css';
+import cartIcon from './cart.png'; // Ваш значок корзины
 
 const FoodCard = ({ item }) => {
   const [quantity, setQuantity] = useState(0);
   const { updateCartItem } = useContext(CartContext);
 
-  // Добавляем все зависимости в useEffect, чтобы каждый раз обновлять корзину
+  // Обновляем корзину при изменении количества
   useEffect(() => {
     updateCartItem(item, quantity);
   }, [item, quantity, updateCartItem]);
 
-  // Обработчик клика с остановкой всплытия, чтобы случайно не вызвать другие события
   const handleAddClick = (e) => {
     e.stopPropagation();
     setQuantity(1);
@@ -44,15 +44,26 @@ const FoodCard = ({ item }) => {
         <p className="food-price">{item.price}</p>
         <p className="food-composition">{item.composition}</p>
         {quantity === 0 ? (
-          <button className="add-to-cart" onClick={handleAddClick}>
-            Добавить в корзину
+          // Кнопка с иконкой, расположенная внизу блока food-details
+          <button
+            className="add-to-cart-btn"
+            onClick={handleAddClick}
+            aria-label="Добавить в корзину"
+          >
+            <img src={cartIcon} alt="Корзина" className="cart-icon" />
           </button>
         ) : (
           <div className="quantity-controls">
-            <button className="decrement" onClick={handleDecrement}>–</button>
+            <button className="decrement" onClick={handleDecrement}>
+              –
+            </button>
             <span className="quantity">{quantity}</span>
-            <button className="increment" onClick={handleIncrement}>+</button>
-            <button className="added" disabled>Добавлено</button>
+            <button className="increment" onClick={handleIncrement}>
+              +
+            </button>
+            <button className="added" disabled>
+              Добавлено
+            </button>
           </div>
         )}
       </div>
@@ -61,4 +72,3 @@ const FoodCard = ({ item }) => {
 };
 
 export default FoodCard;
-    

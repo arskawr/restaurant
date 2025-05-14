@@ -14,8 +14,7 @@ const CheckoutPage = () => {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const navigate = useNavigate();
 
-  // Позволяем формат номера телефона как с пробелами, так и без них:
-  // +375298154751 или +375 29 815 47 51
+
   const validateInputs = () => {
     const nameRegex = /^[А-Яа-яЁё\s]+$/;
     const addressRegex = /^[А-Яа-яA-Za-z0-9\s.,/-]+$/;
@@ -125,6 +124,7 @@ const CheckoutPage = () => {
         <div className="order-confirmation-overlay">
           <div className="order-confirmation-modal">
             <p>Ваш заказ оформлен</p>
+            <p>Ожидайте заказ в течении 1ч20мин</p>
             <button className="main-button" onClick={handleMainButton}>
               Главная
             </button>
