@@ -8,7 +8,7 @@ const HomePage = () => {
       {/* Hero Section */}
       <section
         className="hero"
-        style={{ backgroundImage: "url('/assets/hero.jpg')" }}  // Укажите правильный путь к вашему изображению
+        style={{ backgroundImage: "url('https://webredox.net/demo/wp/candore/wp-content/uploads/2023/01/banner12-1.jpg')" }}  // Укажите правильный путь к вашему изображению
       >
         <div className="hero-overlay">
           <h1>Изысканные блюда в Спатканне</h1>
