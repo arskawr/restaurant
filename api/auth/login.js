@@ -2,24 +2,36 @@
 
 import mysql from 'mysql2';
 
-// Пул подключений для serverless-функции.
-// Используйте переменные окружения для настройки (на Vercel их задаете в настройках проекта).
+// Пул подключений для serverless-среды.
+// Настройте переменные окружения (DB_HOST, DB_USER, DB_PASS, DB_NAME) в настройках Vercel.
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,      // например, 'localhost' или хост БД
-  user: process.env.DB_USER,      // имя пользователя БД
-  password: process.env.DB_PASS,  // пароль
-  database: process.env.DB_NAME,  // имя базы данных
+  host: process.env.DB_HOST,      
+  user: process.env.DB_USER,      
+  password: process.env.DB_PASS,  
+  database: process.env.DB_NAME,  
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
 });
 
 export default function handler(req, res) {
+  // Обработка preflight OPTIONS-запроса
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(200).end();
+  }
+
+  // Разрешаем только POST-запросы
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
+  // Устанавливаем CORS-заголовки для запроса POST
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
   console.log("Получен запрос для авторизации:", req.body);
 
   const { phone, password } = req.body;

@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ phone, password }),
       });
 
-      // Получаем ответ в виде текста для отладки
+      // Получаем текстовый ответ для диагностики
       const text = await res.text();
       console.log("Ответ с API (текст):", text);
 
@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Пустой ответ от сервера");
       }
 
-      // Парсим полученный текст как JSON
       const data = JSON.parse(text);
       setUser(data);
       setError('');
@@ -43,11 +42,7 @@ export const AuthProvider = ({ children }) => {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone: trimmedPhone,
-          name,
-          password: trimmedPassword,
-        }),
+        body: JSON.stringify({ phone: trimmedPhone, name, password: trimmedPassword }),
       });
       const data = await res.json();
       if (!res.ok) {
