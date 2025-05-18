@@ -3,18 +3,17 @@
 import { Pool } from 'pg';
 
 // Создаем пул подключений к PostgreSQL (Supabase)
-// Проверьте, что переменные окружения правильно указаны в панели Vercel
 const pool = new Pool({
-  host: process.env.DB_HOST,              // должно быть: db.xvgqfaziatjesrraqodo.supabase.co
+  host: process.env.DB_HOST,              // например: db.xvgqfaziatjesrraqodo.supabase.co
   user: process.env.DB_USER,              // например: postgres
   password: process.env.DB_PASS,          // ваш реальный пароль
-  database: process.env.DB_NAME,          // обычно: postgres
-  port: process.env.DB_PORT || 5432,       // PostgreSQL использует 5432 по умолчанию
-  ssl: { rejectUnauthorized: false }      // требует Supabase для SSL-подключения
+  database: process.env.DB_NAME,          // например: postgres
+  port: process.env.DB_PORT || 5432,       // PostgreSQL по умолчанию 5432
+  ssl: { rejectUnauthorized: false }      // Обязательно для Supabase
 });
 
 export default async function handler(req, res) {
-  // Обработка preflight-запроса OPTIONS для CORS
+  // Обработка preflight OPTIONS для CORS
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -28,7 +27,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
-  // Устанавливаем CORS-заголовок для POST-запроса
+  // Устанавливаем CORS-заголовок
   res.setHeader('Access-Control-Allow-Origin', '*');
 
   const { phone, password } = req.body;
@@ -48,7 +47,6 @@ export default async function handler(req, res) {
 
     const user = result.rows[0];
 
-    // Простое сравнение пароля (помните, что на реальном проекте следует использовать хэширование)
     if (user.password.trim() !== password.trim()) {
       return res.status(400).json({ error: 'Неверный пароль' });
     }
