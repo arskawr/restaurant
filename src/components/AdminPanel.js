@@ -14,7 +14,7 @@ const AdminPanel = () => {
 
   const [menuItems, setMenuItems] = useState([]);
   const [editedItem, setEditedItem] = useState(null);
-  // Добавляем поле composition при создании нового блюда
+  // Поле composition для нового блюда
   const [newItem, setNewItem] = useState({
     name: '',
     price: '',
@@ -23,14 +23,13 @@ const AdminPanel = () => {
     composition: ''
   });
 
-  // Загружаем блюда с сервера при монтировании
+  // Загружаем блюда при монтировании компонента
   useEffect(() => {
     fetchMenuItems();
   }, []);
 
   const fetchMenuItems = async () => {
     try {
-      // Используем относительный путь; он будет корректно работать в продакшене
       const res = await fetch('/api/menu');
       if (res.ok) {
         const data = await res.json();
@@ -49,14 +48,12 @@ const AdminPanel = () => {
 
   const handleSaveEdit = async () => {
     console.log("Сохраняем редактирование. Отправляем данные:", editedItem);
-    const updatedData = { ...editedItem };
     try {
-      const res = await fetch(`/api/menu/${updatedData.id}`, {
-  method: 'PUT',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(updatedData)
-});
-
+      const res = await fetch(`/api/menu/${editedItem.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editedItem)
+      });
       if (res.ok) {
         const updatedItem = await res.json();
         console.log("Ответ сервера после обновления:", updatedItem);
