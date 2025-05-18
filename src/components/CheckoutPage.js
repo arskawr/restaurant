@@ -2,11 +2,13 @@
 
 import React, { useState, useContext } from 'react';
 import { CartContext } from '../context/CartContext';
+import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
 const CheckoutPage = () => {
   const { cartItems, getTotalPrice, clearCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
@@ -30,8 +32,9 @@ const CheckoutPage = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (cartItems.length === 0) {
       setError('Ваша корзина пуста.');
       return;
@@ -40,22 +43,45 @@ const CheckoutPage = () => {
       setError('Неправильно введены данные.');
       return;
     }
+    if (!user) {
+      setError('Пожалуйста, войдите в систему для оформления заказа.');
+      return;
+    }
     setError('');
-    setOrderPlaced(true);
-    // Здесь можно вызвать API для отправки заказа и затем очистить корзину позже.
+    
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.id,
+          items: cartItems,
+          total: getTotalPrice()
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Ошибка при оформлении заказа.');
+        return;
+      }
+      setOrderPlaced(true);
+      clearCart();
+    } catch (err) {
+      console.error('Ошибка при оформлении заказа:', err);
+      setError('Ошибка при оформлении заказа');
+    }
   };
 
   const handleMainButton = () => {
-    clearCart(); // очищаем корзину
     setOrderPlaced(false);
-    navigate('/'); // переходим на главную
+    navigate('/');
   };
 
   return (
     <div className="checkout-page">
       <h1>Оформление заказа</h1>
       <div className="checkout-container">
-        {/* Блок с заказанными блюдами перенесен вверх */}
+        {/* Блок с заказанными блюдами */}
         <div className="order-summary">
           <h2>Ваш заказ</h2>
           {cartItems.length === 0 ? (
@@ -76,12 +102,12 @@ const CheckoutPage = () => {
                   </div>
                 </div>
               ))}
-              <div className="order-total">Итого: {getTotalPrice()}$</div>
+              <div className="order-total">Итого: {getTotalPrice()}</div>
             </div>
           )}
         </div>
 
-        {/* Блок с формой для доставки размещен ниже */}
+        {/* Форма для ввода данных доставки */}
         <div className="order-form">
           <h2>Введите ваши данные</h2>
           <form onSubmit={handleSubmit}>

@@ -68,9 +68,11 @@ const Header = ({ onCartOpen }) => {
               }}>
                 Корзина
               </button>
-              <Link to="/account" className="account-button">
-            Аккаунт </Link>
-            </li>
+              </li>
+              <li><Link to="/account" className="account-button" onClick={closeMenu}>
+                Аккаунт 
+              </Link>
+              </li>
           </ul>
         </nav>
       </div>

@@ -1,12 +1,33 @@
 // src/components/AccountPage.js
 
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import '../styles.css';
 
 const AccountPage = () => {
   const { user, logout } = useContext(AuthContext);
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+  const [ordersError, setOrdersError] = useState('');
+
+  useEffect(() => {
+    if (user && user.id) {
+      fetch(`/api/orders/${user.id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
+          return res.json();
+        })
+        .then((data) => {
+          setOrderHistory(data);
+          setLoadingOrders(false);
+        })
+        .catch((error) => {
+          setOrdersError(error.message);
+          setLoadingOrders(false);
+        });
+    }
+  }, [user]);
 
   if (!user) {
     return (
@@ -21,16 +42,6 @@ const AccountPage = () => {
     );
   }
 
-  // Фиктивные данные для истории заказов и бронирований
-  const orderHistory = [
-    { id: 1, date: '2023-10-01', total: '25$', items: ['Блюдо 1', 'Блюдо 2'] },
-    { id: 2, date: '2023-10-12', total: '40$', items: ['Блюдо 3', 'Блюдо 4'] },
-  ];
-
-  const reservations = [
-    { id: 1, date: '2023-11-01', time: '19:00', table: 4 },
-  ];
-
   return (
     <div className="account-page">
       <div className="account-header">
@@ -40,43 +51,40 @@ const AccountPage = () => {
           <button onClick={logout} className="logout-button">Выйти</button>
         </div>
       </div>
-
       <div className="account-section">
         <h2>История заказов</h2>
-        {orderHistory.length ? (
+        {loadingOrders ? (
+          <p>Загрузка истории заказов...</p>
+        ) : ordersError ? (
+          <p>Ошибка: {ordersError}</p>
+        ) : orderHistory.length ? (
           <div className="card-container">
-            {orderHistory.map(order => (
-              <div key={order.id} className="card">
-                <h3>Заказ #{order.id}</h3>
-                <p><strong>Дата:</strong> {order.date}</p>
-                <p><strong>Итого:</strong> {order.total}</p>
-                <p><strong>Блюда:</strong> {order.items.join(', ')}</p>
-              </div>
-            ))}
+            {orderHistory.map((order) => {
+              let orderDisplay = "";
+              try {
+                const parsedItems = JSON.parse(order.items);
+                // Собираем только названия блюд
+                orderDisplay = parsedItems.map(item => item.name).join(', ');
+              } catch(err) {
+                orderDisplay = order.items;
+              }
+              return (
+                <div key={order.id} className="card">
+                  <h3>Заказ #{order.id}</h3>
+                  <p>
+                    <strong>Дата:</strong>{' '}
+                    {order.created_at ? new Date(order.created_at).toLocaleDateString() : '-'}
+                  </p>
+                  <p><strong>Итого:</strong> {order.total}</p>
+                  <p><strong>Заказ:</strong> {orderDisplay}</p>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <p>Заказов пока нет.</p>
         )}
       </div>
-
-      <div className="account-section">
-        <h2>Бронирования</h2>
-        {reservations.length ? (
-          <div className="card-container">
-            {reservations.map(res => (
-              <div key={res.id} className="card">
-                <h3>Бронирование #{res.id}</h3>
-                <p><strong>Дата:</strong> {res.date}</p>
-                <p><strong>Время:</strong> {res.time}</p>
-                <p><strong>Столик:</strong> {res.table}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>Бронирований пока нет.</p>
-        )}
-      </div>
-
       {user.role === 'admin' && (
         <div className="admin-panel-link">
           <h2>Панель администратора</h2>

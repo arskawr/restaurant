@@ -6,49 +6,55 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../styles.css';
 
 const LoginPage = () => {
-  const { login } = useContext(AuthContext);
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const { login, error } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!login({ phone, password })) {
-      setError('Неправильный номер телефона или пароль');
-    } else {
+    try {
+      await login({ phone, password });
       navigate('/account');
+    } catch (err) {
+      console.error('Ошибка логина:', err);
     }
   };
 
   return (
-    <div className="login-page">
-      <h1>Вход</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Номер телефона:</label>
-          <input
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="+375 29 ..."
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Пароль:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+    <div className="auth-container">
+      <div className="auth-box">
+        <h1 className="auth-title">Вход</h1>
         {error && <p className="error-message">{error}</p>}
-        <button type="submit" className="submit-order">Войти</button>
-      </form>
-      <p>
-        Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
-      </p>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Номер телефона:</label>
+            <input
+              type="text"
+              className="auth-input"
+              placeholder="+375336780919"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Пароль:</label>
+            <input
+              type="password"
+              className="auth-input"
+              placeholder="Введите пароль"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="auth-button">Войти</button>
+        </form>
+        <p className="auth-bottom-info">
+          Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+        </p>
+      </div>
     </div>
   );
 };

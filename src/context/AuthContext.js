@@ -4,41 +4,54 @@ import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext();
 
-// Для демонстрации используются "заглушки". 
-// В реальном приложении необходимо делать запросы к серверу.
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  /*  
-    Структура user: {
-      phone: '+375291234567',
-      name: 'Иван',
-      role: 'user'  // или 'admin'
-    }
-  */
+  const [error, setError] = useState('');
 
-  const login = ({ phone, password }) => {
-    // Пример заглушки: два "пользователя"
-    const dummyUsers = [
-      { phone: '+375291234567', password: 'userpass', name: 'Иван', role: 'user' },
-      { phone: '+375299876543', password: 'adminpass', name: 'Администратор', role: 'admin' },
-    ];
-    const found = dummyUsers.find(
-      (u) => u.phone === phone && u.password === password
-    );
-    if (found) {
-      setUser(found);
-      return true;
-    } else {
-      return false;
+  const login = async ({ phone, password }) => {
+    const trimmedPhone = phone.trim();
+    const trimmedPassword = password.trim();
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: trimmedPhone, password: trimmedPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error);
+        throw new Error(data.error);
+      }
+      setUser(data);
+      setError('');
+      return data;
+    } catch (err) {
+      console.error('Ошибка в login:', err);
+      throw err;
     }
   };
 
-  const register = ({ phone, name, password }) => {
-    // Здесь может быть вызов API. Пока что симулируем регистрацию.
-    // По умолчанию зарегистрированный пользователь имеет роль "user".
-    const newUser = { phone, name, password, role: 'user' };
-    setUser(newUser);
-    return true;
+  const register = async ({ phone, name, password }) => {
+    const trimmedPhone = phone.trim();
+    const trimmedPassword = password.trim();
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: trimmedPhone, name, password: trimmedPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error);
+        throw new Error(data.error);
+      }
+      setUser(data);
+      setError('');
+      return data;
+    } catch (err) {
+      console.error('Ошибка регистрации:', err);
+      throw err;
+    }
   };
 
   const logout = () => {
@@ -46,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, error, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

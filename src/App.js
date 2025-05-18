@@ -12,8 +12,10 @@ import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import AccountPage from './components/AccountPage';
 import AdminPanel from './components/AdminPanel';
+
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { MenuProvider } from './context/MenuContext';  // Новый провайдер
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -24,22 +26,24 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Router>
-          <Header onCartOpen={openCart} />
-          {isCartOpen && <CartModal onClose={closeCart} />}
-          <div style={{ paddingTop: '70px' }}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/category/:category" element={<CategoryPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/reservation" element={<ReservationPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/account" element={<AccountPage />} />
-              <Route path="/admin" element={<AdminPanel />} />
-            </Routes>
-          </div>
-        </Router>
+        <MenuProvider>
+          <Router>
+            <Header onCartOpen={openCart} />
+            {isCartOpen && <CartModal onClose={closeCart} />}
+            <div style={{ paddingTop: '70px' }}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/category/:category" element={<CategoryPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/reservation" element={<ReservationPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/account" element={<AccountPage />} />
+                <Route path="/admin" element={<AdminPanel />} />
+              </Routes>
+            </div>
+          </Router>
+        </MenuProvider>
       </CartProvider>
     </AuthProvider>
   );

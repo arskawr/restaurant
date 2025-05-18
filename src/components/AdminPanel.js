@@ -14,7 +14,14 @@ const AdminPanel = () => {
 
   const [menuItems, setMenuItems] = useState([]);
   const [editedItem, setEditedItem] = useState(null);
-  const [newItem, setNewItem] = useState({ name: '', price: '', image: '', category: 'salads' });
+  // Добавляем поле composition при создании нового блюда
+  const [newItem, setNewItem] = useState({
+    name: '',
+    price: '',
+    image: '',
+    category: 'salads',
+    composition: ''
+  });
 
   // Загружаем блюда с сервера при монтировании
   useEffect(() => {
@@ -40,15 +47,19 @@ const AdminPanel = () => {
   };
 
   const handleSaveEdit = async () => {
+    console.log("Сохраняем редактирование. Отправляем данные:", editedItem);
+    // Создаем копию объекта и отправляем обновленные данные
+    const updatedData = { ...editedItem };
     try {
-      const res = await fetch(`http://localhost:5000/api/menu/${editedItem.id}`, {
+      const res = await fetch(`http://localhost:5000/api/menu/${updatedData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editedItem)
+        body: JSON.stringify(updatedData)
       });
       if (res.ok) {
         const updatedItem = await res.json();
-        setMenuItems(menuItems.map(item => item.id === updatedItem.id ? updatedItem : item));
+        console.log("Ответ сервера после обновления:", updatedItem);
+        await fetchMenuItems();
         setEditedItem(null);
       } else {
         const errorData = await res.json();
@@ -90,8 +101,9 @@ const AdminPanel = () => {
       });
       if (res.ok) {
         const addedItem = await res.json();
+        console.log("Добавленное блюдо:", addedItem);
         setMenuItems([...menuItems, addedItem]);
-        setNewItem({ name: '', price: '', image: '', category: 'salads' });
+        setNewItem({ name: '', price: '', image: '', category: 'salads', composition: '' });
       } else {
         const errorData = await res.json();
         alert("Ошибка добавления: " + errorData.error);
@@ -114,6 +126,7 @@ const AdminPanel = () => {
               <th>Цена</th>
               <th>Категория</th>
               <th>Изображение</th>
+              <th>Состав</th>
               <th>Действия</th>
             </tr>
           </thead>
@@ -172,6 +185,17 @@ const AdminPanel = () => {
                 </td>
                 <td>
                   {editedItem && editedItem.id === item.id ? (
+                    <input
+                      type="text"
+                      value={editedItem.composition || ''}
+                      onChange={(e) => setEditedItem({ ...editedItem, composition: e.target.value })}
+                    />
+                  ) : (
+                    item.composition || '-'
+                  )}
+                </td>
+                <td>
+                  {editedItem && editedItem.id === item.id ? (
                     <>
                       <button onClick={handleSaveEdit}>Сохранить</button>
                       <button onClick={handleCancelEdit}>Отмена</button>
@@ -221,6 +245,12 @@ const AdminPanel = () => {
               </option>
             ))}
           </select>
+          <input
+            type="text"
+            placeholder="Состав блюда"
+            value={newItem.composition}
+            onChange={(e) => setNewItem({ ...newItem, composition: e.target.value })}
+          />
           <button onClick={handleAddItem}>Добавить блюдо</button>
         </div>
       </div>
