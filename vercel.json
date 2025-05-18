@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/api/menu/:id*", "destination": "/api/menu.js" },
-    { "source": "/api/orders/:id*", "destination": "/api/orders.js" }
+    { "source": "/api/auth/login", "destination": "/api-auth-login.js" },
+    { "source": "/api/menu/:id*", "destination": "/api-menu.js" },
+    { "source": "/api/orders/:id*", "destination": "/api-orders-id.js" }
   ]
 }
