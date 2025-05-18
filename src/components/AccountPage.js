@@ -13,8 +13,10 @@ const AccountPage = () => {
 
   useEffect(() => {
     if (user && user.id) {
+      console.log('Запрашиваем историю заказов для пользователя с id:', user.id);
       fetch(`/api/orders/${user.id}`)
         .then((res) => {
+          console.log('Статус ответа при получении заказов:', res.status);
           if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
           return res.json();
         })
@@ -26,7 +28,7 @@ const AccountPage = () => {
           setLoadingOrders(false);
         })
         .catch((error) => {
-          console.error("Ошибка при получении заказов:", error);
+          console.error('Ошибка при получении заказов:', error);
           setOrdersError(error.message);
           setLoadingOrders(false);
         });
@@ -66,10 +68,10 @@ const AccountPage = () => {
             {orderHistory.map((order) => {
               let orderDisplay = "";
               try {
-                // Предполагается, что order.items хранится в виде JSON-строки
+                // Если order.items хранится в виде JSON-строки, попытаемся его распарсить
                 const parsedItems = JSON.parse(order.items);
                 orderDisplay = parsedItems.map(item => item.name).join(', ');
-              } catch(err) {
+              } catch (err) {
                 orderDisplay = order.items;
               }
               return (

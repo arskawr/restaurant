@@ -1,23 +1,30 @@
 // api/orders.js
+// Обрабатывает запросы к заказам:
+// • GET /api/orders                       — (опционально) общий список заказов
+// • POST /api/orders                      — создание нового заказа
+// • GET /api/orders/{userId}              — история заказов конкретного пользователя
+
 import { parse } from 'url';
 import { Pool } from 'pg';
 
-console.log("Orders endpoint file loaded."); // добавлено для проверки загрузки
-
+// Настройка подключения к базе данных
 const pool = new Pool({
-  host: process.env.DB_HOST,       
-  user: process.env.DB_USER,       
-  password: process.env.DB_PASS,   
-  database: process.env.DB_NAME,   
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   port: process.env.DB_PORT || 6543,
   ssl: { rejectUnauthorized: false },
   family: 4
 });
 
+// Добавим логирование для отладки:
+console.log("Orders API endpoint загружен.");
+
 export default async function handler(req, res) {
-  console.log("Orders function invoked. req.url =", req.url);
+  console.log("Orders API вызван. req.url =", req.url);
   const parsedUrl = parse(req.url, true);
-  const pathname = parsedUrl.pathname;  // Например, "/api/orders" или "/api/orders/1"
+  const pathname = parsedUrl.pathname;  // Например: "/api/orders" или "/api/orders/1"
   const cleanPath = pathname.replace(/\/+$/, "");
 
   // Если путь ровно "/api/orders"
@@ -43,6 +50,7 @@ export default async function handler(req, res) {
             res.statusCode = 400;
             return res.end(JSON.stringify({ error: 'Требуются поля: user_id, items, total' }));
           }
+          // Преобразуем items в JSON-строку, если это необходимо
           const itemsText = typeof orderData.items === 'string'
             ? orderData.items
             : JSON.stringify(orderData.items);
@@ -60,13 +68,15 @@ export default async function handler(req, res) {
       });
     } else {
       res.statusCode = 405;
+      res.setHeader('Allow', ['GET', 'POST']);
       return res.end(JSON.stringify({ error: `Метод ${req.method} не поддерживается` }));
     }
     return;
   }
 
-  // Если путь вида "/api/orders/{userId}"
+  // Обработка пути "/api/orders/{userId}"
   const parts = cleanPath.split('/');
+  // Ожидаем: ["", "api", "orders", "{userId}"]
   if (parts.length !== 3 || isNaN(parts[2])) {
     res.statusCode = 404;
     return res.end(JSON.stringify({ error: 'Неверный путь' }));
@@ -82,12 +92,13 @@ export default async function handler(req, res) {
       res.setHeader('Content-Type', 'application/json');
       return res.end(JSON.stringify(result.rows));
     } catch (err) {
-      console.error("Ошибка при получении истории заказов:", err);
+      console.error("Ошибка при получении истории заказов для user_id =", userId, err);
       res.statusCode = 500;
       return res.end(JSON.stringify({ error: err.message }));
     }
   } else {
     res.statusCode = 405;
+    res.setHeader('Allow', ['GET']);
     return res.end(JSON.stringify({ error: `Метод ${req.method} не поддерживается` }));
   }
 }
