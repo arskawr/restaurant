@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  host: process.env.DB_HOST,
+  host: "db.xvgqfaziatjesrraqodo.supabase.co", // захардкодили значение для отладки
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
@@ -10,6 +10,8 @@ const pool = new Pool({
 });
 
 export default async function handler(req, res) {
+    console.log('DB_HOST from env:', process.env.DB_HOST);
+
   console.log("Вход в функцию login. Метод запроса:", req.method);
   
   if (req.method === 'OPTIONS') {
