@@ -1,27 +1,25 @@
-// api/menu/[id].js
-
+// pages/api/menu/[id].js
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  // Эти переменные должны быть заданы через Environment Variables на Vercel (или в локальном .env)
-  host: process.env.DB_HOST,              // например: aws-0-eu-west-2.pooler.supabase.com
-  user: process.env.DB_USER,              // например: postgres.xvgqfaziatjesrraqodo
-  password: process.env.DB_PASS,          // ваш реальный пароль
-  database: process.env.DB_NAME,          // например: postgres
-  port: process.env.DB_PORT || 6543,       // порт, например, 6543 для Transaction Pooler
+  host: process.env.DB_HOST,              // Например: aws-0-eu-west-2.pooler.supabase.com
+  user: process.env.DB_USER,              // Например: postgres.xvgqfaziatjesrraqodo
+  password: process.env.DB_PASS,          // Ваш пароль
+  database: process.env.DB_NAME,          // Например: postgres
+  port: process.env.DB_PORT || 6543,       // Например, 6543 для Transaction Pooler
   ssl: { rejectUnauthorized: false },
   family: 4
 });
 
 export default async function handler(req, res) {
   const { id } = req.query;
-  
+
   if (!id) {
     return res.status(400).json({ error: 'Не указан ID блюда' });
   }
-  
+
   if (req.method === 'PUT') {
-    // Обработка обновления блюда
+    // Обновляем данные блюда
     try {
       const { name, price, image, category, composition } = req.body;
       const query = `
@@ -41,7 +39,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: err.message });
     }
   } else if (req.method === 'DELETE') {
-    // Обработка удаления блюда
+    // Удаляем блюдо
     try {
       const query = "DELETE FROM menu WHERE id = $1 RETURNING *";
       const values = [id];
@@ -55,7 +53,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: err.message });
     }
   } else if (req.method === 'GET') {
-    // Опционально: получение данных блюда по id (если потребуется)
+    // Получение данных блюда по id (опционально)
     try {
       const query = "SELECT * FROM menu WHERE id = $1";
       const values = [id];
