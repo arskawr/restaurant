@@ -1,13 +1,16 @@
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  host: "db.xvgqfaziatjesrraqodo.supabase.co", // захардкодили значение для отладки
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 5432,
-  ssl: { rejectUnauthorized: false }
+  host: process.env.DB_HOST,               // теперь aws-0-eu-west-2.pooler.supabase.com
+  user: process.env.DB_USER,               // postgres.xvgqfaziatjesrraqodo
+  password: process.env.DB_PASS,           // ваш пароль
+  database: process.env.DB_NAME,           // postgres
+  port: process.env.DB_PORT || 6543,        // порт 6543
+  ssl: { rejectUnauthorized: false },      // SSL по-прежнему нужен для безопасности
+  // Если необходимо, можно оставить family: 4 для IPv4
+  family: 4
 });
+
 
 export default async function handler(req, res) {
     console.log('DB_HOST from env:', process.env.DB_HOST);
