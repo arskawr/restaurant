@@ -19,10 +19,14 @@ const AccountPage = () => {
           return res.json();
         })
         .then((data) => {
-          setOrderHistory(data);
+          console.log('Получены заказы:', data);
+          // Если ответ не массив, обернём его в массив
+          const ordersArray = Array.isArray(data) ? data : [data];
+          setOrderHistory(ordersArray);
           setLoadingOrders(false);
         })
         .catch((error) => {
+          console.error("Ошибка при получении заказов:", error);
           setOrdersError(error.message);
           setLoadingOrders(false);
         });
@@ -62,8 +66,8 @@ const AccountPage = () => {
             {orderHistory.map((order) => {
               let orderDisplay = "";
               try {
+                // Предполагается, что order.items хранится в виде JSON-строки
                 const parsedItems = JSON.parse(order.items);
-                // Собираем только названия блюд
                 orderDisplay = parsedItems.map(item => item.name).join(', ');
               } catch(err) {
                 orderDisplay = order.items;
