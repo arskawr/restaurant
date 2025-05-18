@@ -111,10 +111,13 @@ app.post('/api/auth/register', (req, res) => {
 
 // Вход (логин)
 app.post('/api/auth/login', (req, res) => {
+  console.log("Получен запрос для логина:", req.body);
+  
   const { phone, password } = req.body;
   if (!phone || !password) {
     return res.status(400).json({ error: 'Введите номер и пароль' });
   }
+  
   const trimmedPhone = phone.trim();
   const trimmedPassword = password.trim();
   const query = 'SELECT * FROM users WHERE phone = ?';
@@ -127,9 +130,18 @@ app.post('/api/auth/login', (req, res) => {
     if (user.password.trim() !== trimmedPassword) {
       return res.status(400).json({ error: 'Неверный пароль' });
     }
+    
+    console.log("Пользователь успешно авторизован. Отправляем данные:", {
+      id: user.id,
+      phone: user.phone,
+      name: user.name,
+      role: user.role
+    });
+    
     res.json({ id: user.id, phone: user.phone, name: user.name, role: user.role });
   });
 });
+
 
 // ---------------------- ORDERS ENDPOINTS -------------------------
 
