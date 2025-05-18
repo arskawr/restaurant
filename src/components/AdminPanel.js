@@ -52,10 +52,11 @@ const AdminPanel = () => {
     const updatedData = { ...editedItem };
     try {
       const res = await fetch(`/api/menu/${updatedData.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData)
-      });
+  method: 'PUT',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(updatedData)
+});
+
       if (res.ok) {
         const updatedItem = await res.json();
         console.log("Ответ сервера после обновления:", updatedItem);
