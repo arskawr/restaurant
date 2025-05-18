@@ -1,30 +1,24 @@
 // api/auth/login.js
-// Этот API-роут обрабатывает POST-запросы для авторизации пользователя
+// Обрабатывает POST-запросы для авторизации пользователя
 
 import { Pool } from 'pg';
 
-// Настроим пул соединений с использованием переменных окружения.
-// Для Transaction Pooler Supabase используйте следующие параметры:
-// DB_HOST: aws-0-eu-west-2.pooler.supabase.com  
-// DB_PORT: 6543  
-// DB_USER: postgres.xvgqfaziatjesrraqodo  
-// DB_PASS: ваш пароль  
-// DB_NAME: postgres
+// Настройка пула подключений для Supabase через Transaction Pooler
 const pool = new Pool({
-  host: process.env.DB_HOST,              // например, aws-0-eu-west-2.pooler.supabase.com
-  user: process.env.DB_USER,              // например, postgres.xvgqfaziatjesrraqodo
-  password: process.env.DB_PASS,          // ваш реальный пароль
-  database: process.env.DB_NAME,          // например, postgres
-  port: process.env.DB_PORT || 6543,       // порт для Transaction Pooler (или 5432, если стандартный)
-  ssl: { rejectUnauthorized: false },    // необходимо для SSL-подключения
-  family: 4                               // форсируем использование IPv4
+  host: process.env.DB_HOST,              // aws-0-eu-west-2.pooler.supabase.com
+  user: process.env.DB_USER,              // postgres.xvgqfaziatjesrraqodo
+  password: process.env.DB_PASS,          // ваш пароль
+  database: process.env.DB_NAME,          // postgres
+  port: process.env.DB_PORT || 6543,       // порт 6543
+  ssl: { rejectUnauthorized: false },
+  family: 4                               // форсируем IPv4
 });
 
 export default async function handler(req, res) {
   console.log("DB_HOST from env:", process.env.DB_HOST);
   console.log("Вход в функцию login. Метод запроса:", req.method);
 
-  // Обработка preflight-запроса OPTIONS для CORS
+  // Обработка CORS preflight-запроса
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

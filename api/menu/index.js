@@ -1,20 +1,21 @@
 // api/menu/index.js
-// Этот API-роут обрабатывает GET-запрос для получения списка блюд из таблицы menu
+// Обрабатывает GET-запросы для получения списка блюд из таблицы menu
 
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  host: process.env.DB_HOST,              // например: aws-0-eu-west-2.pooler.supabase.com
-  user: process.env.DB_USER,              // например, postgres.xvgqfaziatjesrraqodo
+  host: process.env.DB_HOST,              // aws-0-eu-west-2.pooler.supabase.com
+  user: process.env.DB_USER,              // postgres.xvgqfaziatjesrraqodo
   password: process.env.DB_PASS,          // ваш пароль
-  database: process.env.DB_NAME,          // например, postgres
-  port: process.env.DB_PORT || 6543,       // используйте порт из переменной или 6543
+  database: process.env.DB_NAME,          // postgres
+  port: process.env.DB_PORT || 6543,       // порт 6543
   ssl: { rejectUnauthorized: false },
   family: 4
 });
 
 export default async function handler(req, res) {
   console.log("Вход в функцию menu. Метод запроса:", req.method);
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   if (req.method !== 'GET') {
     res.setHeader('Allow', ['GET']);
