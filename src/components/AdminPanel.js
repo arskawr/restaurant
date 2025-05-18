@@ -30,7 +30,8 @@ const AdminPanel = () => {
 
   const fetchMenuItems = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/menu');
+      // Используем относительный путь; он будет корректно работать в продакшене
+      const res = await fetch('/api/menu');
       if (res.ok) {
         const data = await res.json();
         setMenuItems(data);
@@ -48,10 +49,9 @@ const AdminPanel = () => {
 
   const handleSaveEdit = async () => {
     console.log("Сохраняем редактирование. Отправляем данные:", editedItem);
-    // Создаем копию объекта и отправляем обновленные данные
     const updatedData = { ...editedItem };
     try {
-      const res = await fetch(`http://localhost:5000/api/menu/${updatedData.id}`, {
+      const res = await fetch(`/api/menu/${updatedData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData)
@@ -76,7 +76,7 @@ const AdminPanel = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/menu/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/menu/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setMenuItems(menuItems.filter(item => item.id !== id));
       } else {
@@ -94,7 +94,7 @@ const AdminPanel = () => {
       return;
     }
     try {
-      const res = await fetch('http://localhost:5000/api/menu', {
+      const res = await fetch('/api/menu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem)
