@@ -1,29 +1,26 @@
 // api/orders.js
-// Обрабатывает:
-// • GET /api/orders              — получение общего списка заказов (если нужно)
-// • POST /api/orders             — создание нового заказа
-// • GET /api/orders/{userId}     — получение истории заказов для пользователя с указанным userId
-
 import { parse } from 'url';
 import { Pool } from 'pg';
 
-// Настройка подключения к базе данных
+console.log("Orders endpoint file loaded."); // добавлено для проверки загрузки
+
 const pool = new Pool({
-  host: process.env.DB_HOST,       // Например: aws-0-eu-west-2.pooler.supabase.com
-  user: process.env.DB_USER,       // Например: postgres.xvgqfaziatjesrraqodo
-  password: process.env.DB_PASS,   // Ваш пароль
-  database: process.env.DB_NAME,   // Например: postgres
-  port: process.env.DB_PORT || 6543,// Для Transaction Pooler обычно 6543
+  host: process.env.DB_HOST,       
+  user: process.env.DB_USER,       
+  password: process.env.DB_PASS,   
+  database: process.env.DB_NAME,   
+  port: process.env.DB_PORT || 6543,
   ssl: { rejectUnauthorized: false },
   family: 4
 });
 
 export default async function handler(req, res) {
+  console.log("Orders function invoked. req.url =", req.url);
   const parsedUrl = parse(req.url, true);
   const pathname = parsedUrl.pathname;  // Например, "/api/orders" или "/api/orders/1"
-  const cleanPath = pathname.replace(/\/+$/, ""); // удаляем конечные слэши
+  const cleanPath = pathname.replace(/\/+$/, "");
 
-  // Если путь ровно "/api/orders" – обрабатываем запросы общего списка или создание заказа
+  // Если путь ровно "/api/orders"
   if (cleanPath === '/api/orders') {
     if (req.method === 'GET') {
       try {
@@ -68,9 +65,8 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Если путь не равен "/api/orders", предполагаем, что он имеет вид "/api/orders/{userId}"
+  // Если путь вида "/api/orders/{userId}"
   const parts = cleanPath.split('/');
-  // Ожидается: ["", "api", "orders", "{userId}"]
   if (parts.length !== 3 || isNaN(parts[2])) {
     res.statusCode = 404;
     return res.end(JSON.stringify({ error: 'Неверный путь' }));
