@@ -668,3 +668,246 @@ body {
   align-items: center;
   gap: 20px;
 }
+
+
+/* Общие стили для страницы аккаунта */
+.account-page {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.account-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.account-header h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.logout-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Секции аккаунта */
+.account-section {
+  margin-bottom: 30px;
+}
+
+.account-section h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Контейнер для карточек (заказы и бронирования) */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Карточка для заказа/бронирования */
+.card {
+  flex: 1 1 250px;
+  background: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Стили для ссылки панели администратора */
+.admin-panel-link {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.admin-link {
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.admin-link:hover {
+  background-color: #0069d9;
+}
+
+/* Стили для панели администратора */
+.admin-panel {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-panel h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+.admin-panel h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Таблица для отображения блюд */
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.menu-table th,
+.menu-table td {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.menu-table th {
+  background: #f3f3f3;
+  font-weight: bold;
+}
+
+/* Стилизация изображений в таблице */
+.admin-item-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Кнопки таблицы */
+.menu-table button {
+  padding: 6px 10px;
+  margin: 0 3px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.menu-table button:hover {
+  opacity: 0.9;
+}
+
+.menu-table button:first-of-type {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.menu-table button:last-of-type {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Форма добавления нового блюда */
+.add-menu-item {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.add-menu-item h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+.add-menu-item-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-menu-item-form input,
+.add-menu-item-form select {
+  flex: 1 1 200px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-menu-item-form button {
+  padding: 10px 20px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-menu-item-form button:hover {
+  background: #218838;
+}

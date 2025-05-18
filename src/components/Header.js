@@ -68,6 +68,8 @@ const Header = ({ onCartOpen }) => {
               }}>
                 Корзина
               </button>
+              <Link to="/account" className="account-button">
+            Аккаунт </Link>
             </li>
           </ul>
         </nav>
