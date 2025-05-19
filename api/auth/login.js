@@ -2,10 +2,10 @@
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  host: process.env.DB_HOST,       // Например: aws-0-eu-west-2.pooler.supabase.com
-  user: process.env.DB_USER,       // Например: postgres.xvgqfaziatjesrraqodo
-  password: process.env.DB_PASS,   // Ваш пароль
-  database: process.env.DB_NAME,   // Например: postgres
+  host: process.env.DB_HOST,       
+  user: process.env.DB_USER,       
+  password: process.env.DB_PASS,   
+  database: process.env.DB_NAME,   
   port: process.env.DB_PORT || 6543,
   ssl: { rejectUnauthorized: false },
   family: 4

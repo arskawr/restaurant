@@ -1,13 +1,13 @@
 // api/orders.js
-// Обрабатывает запросы к заказам:
-// • GET /api/orders             — общий список заказов (опционально)
+// Обрабатывает:
+// • GET /api/orders             — получение общего списка заказов (опционально)
 // • POST /api/orders            — создание нового заказа
 // • GET /api/orders/{userId}    — получение истории заказов для пользователя
 
 import { parse } from 'url';
 import { Pool } from 'pg';
 
-console.log("Orders API endpoint загружен."); // Лог для отладки
+console.log("Orders API endpoint загружен."); // Отладка
 
 const pool = new Pool({
   host: process.env.DB_HOST,       
@@ -22,11 +22,12 @@ const pool = new Pool({
 export default async function handler(req, res) {
   console.log("Orders API вызван, req.url =", req.url);
   const parsedUrl = parse(req.url, true);
-  const pathname = parsedUrl.pathname;  // Например: "/api/orders" или "/api/orders/1"
-  const cleanPath = pathname.replace(/\/+$/, ""); // удаляем конечные слэши
+  const pathname = parsedUrl.pathname;  
+  const trimmedPath = pathname.replace(/^\/+|\/+$/g, ""); // например, "api/orders" или "api/orders/1"
+  const parts = trimmedPath.split('/'); // Для "api/orders" → ["api", "orders"], для "api/orders/1" → ["api", "orders", "1"]
 
-  // Если путь ровно "/api/orders" – обрабатываем общий запрос или создание заказа
-  if (cleanPath === '/api/orders') {
+  // Если путь "api/orders" без параметра:
+  if (parts.length === 2) {
     if (req.method === 'GET') {
       try {
         const result = await pool.query('SELECT * FROM orders');
@@ -69,12 +70,10 @@ export default async function handler(req, res) {
       return res.end(JSON.stringify({ error: `Метод ${req.method} не поддерживается` }));
     }
   }
-
-  // Если путь имеет вид "/api/orders/{userId}"
-  // При запросе "/api/orders/1" split даст: ["", "api", "orders", "1"]
-  const parts = cleanPath.split('/');
-  if (parts.length === 4 && !isNaN(parts[3])) {
-    const userId = parts[3];
+  
+  // Если путь вида "api/orders/{userId}"
+  if (parts.length === 3 && !isNaN(parts[2])) {
+    const userId = parts[2];
     if (req.method === 'GET') {
       try {
         const query = 'SELECT * FROM orders WHERE user_id = $1';
