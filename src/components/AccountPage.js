@@ -22,13 +22,12 @@ const AccountPage = () => {
         })
         .then((data) => {
           console.log('Получены заказы:', data);
-          // Если ответ не массив, обернём его в массив
           const ordersArray = Array.isArray(data) ? data : [data];
           setOrderHistory(ordersArray);
           setLoadingOrders(false);
         })
         .catch((error) => {
-          console.error('Ошибка при получении заказов:', error);
+          console.error("Ошибка при получении заказов:", error);
           setOrdersError(error.message);
           setLoadingOrders(false);
         });
@@ -68,10 +67,9 @@ const AccountPage = () => {
             {orderHistory.map((order) => {
               let orderDisplay = "";
               try {
-                // Если order.items хранится в виде JSON-строки, попытаемся его распарсить
                 const parsedItems = JSON.parse(order.items);
                 orderDisplay = parsedItems.map(item => item.name).join(', ');
-              } catch (err) {
+              } catch(err) {
                 orderDisplay = order.items;
               }
               return (

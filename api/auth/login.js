@@ -1,12 +1,11 @@
 // api/auth/login.js
 import { Pool } from 'pg';
 
-// Настройка подключения к базе данных (переменные окружения должны быть заданы на Vercel или в .env)
 const pool = new Pool({
-  host: process.env.DB_HOST,       // например: aws-0-eu-west-2.pooler.supabase.com
-  user: process.env.DB_USER,       // например: postgres.xvgqfaziatjesrraqodo
-  password: process.env.DB_PASS,   // ваш пароль
-  database: process.env.DB_NAME,   // например: postgres
+  host: process.env.DB_HOST,       // Например: aws-0-eu-west-2.pooler.supabase.com
+  user: process.env.DB_USER,       // Например: postgres.xvgqfaziatjesrraqodo
+  password: process.env.DB_PASS,   // Ваш пароль
+  database: process.env.DB_NAME,   // Например: postgres
   port: process.env.DB_PORT || 6543,
   ssl: { rejectUnauthorized: false },
   family: 4

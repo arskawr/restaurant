@@ -1,13 +1,14 @@
 // api/orders.js
 // Обрабатывает запросы к заказам:
-// • GET /api/orders                       — (опционально) общий список заказов
-// • POST /api/orders                      — создание нового заказа
-// • GET /api/orders/{userId}              — история заказов конкретного пользователя
+// • GET /api/orders             — возвращает общий список заказов (опционально)
+// • POST /api/orders            — создание нового заказа
+// • GET /api/orders/{userId}    — получение истории заказов для пользователя
 
 import { parse } from 'url';
 import { Pool } from 'pg';
 
-// Настройка подключения к базе данных
+console.log("Orders API endpoint загружен."); // Лог для отладки
+
 const pool = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -18,16 +19,12 @@ const pool = new Pool({
   family: 4
 });
 
-// Добавим логирование для отладки:
-console.log("Orders API endpoint загружен.");
-
 export default async function handler(req, res) {
-  console.log("Orders API вызван. req.url =", req.url);
+  console.log("Orders API вызван. req.url =", req.url); // Лог для отладки
   const parsedUrl = parse(req.url, true);
   const pathname = parsedUrl.pathname;  // Например: "/api/orders" или "/api/orders/1"
   const cleanPath = pathname.replace(/\/+$/, "");
 
-  // Если путь ровно "/api/orders"
   if (cleanPath === '/api/orders') {
     if (req.method === 'GET') {
       try {
@@ -50,7 +47,6 @@ export default async function handler(req, res) {
             res.statusCode = 400;
             return res.end(JSON.stringify({ error: 'Требуются поля: user_id, items, total' }));
           }
-          // Преобразуем items в JSON-строку, если это необходимо
           const itemsText = typeof orderData.items === 'string'
             ? orderData.items
             : JSON.stringify(orderData.items);
@@ -74,9 +70,8 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Обработка пути "/api/orders/{userId}"
+  // Если маршрут вида "/api/orders/{userId}"
   const parts = cleanPath.split('/');
-  // Ожидаем: ["", "api", "orders", "{userId}"]
   if (parts.length !== 3 || isNaN(parts[2])) {
     res.statusCode = 404;
     return res.end(JSON.stringify({ error: 'Неверный путь' }));

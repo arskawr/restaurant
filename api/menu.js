@@ -1,15 +1,14 @@
 // api/menu.js
-// Этот файл обрабатывает запросы к меню:
-// • GET /api/menu             - получение списка блюд
-// • POST /api/menu            - создание нового блюда
-// • GET /api/menu/{id}        - получение блюда по ID
-// • PUT /api/menu/{id}        - обновление блюда по ID
-// • DELETE /api/menu/{id}     - удаление блюда по ID
+// Обрабатывает запросы:
+// GET /api/menu             — получение списка блюд
+// POST /api/menu            — создание нового блюда
+// GET /api/menu/{id}        — получение блюда по ID
+// PUT /api/menu/{id}        — обновление блюда по ID
+// DELETE /api/menu/{id}     — удаление блюда по ID
 
 import { parse } from 'url';
 import { Pool } from 'pg';
 
-// Подключение к базе данных
 const pool = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -20,14 +19,11 @@ const pool = new Pool({
   family: 4
 });
 
-// Обработка запроса
 export default async function handler(req, res) {
-  // Разбираем URL, чтобы определить, есть ли параметр ID
   const parsedUrl = parse(req.url, true);
-  const pathname = parsedUrl.pathname; // Например: "/api/menu" или "/api/menu/9"
-  const cleanPath = pathname.replace(/\/+$/, ""); // удаляем конечные слэши
+  const pathname = parsedUrl.pathname; // Например, "/api/menu" или "/api/menu/11"
+  const cleanPath = pathname.replace(/\/+$/, "");
 
-  // Если путь ровно "/api/menu" — обрабатываем GET и POST запросы
   if (cleanPath === '/api/menu') {
     if (req.method === 'GET') {
       try {
@@ -50,10 +46,8 @@ export default async function handler(req, res) {
             res.statusCode = 400;
             return res.end(JSON.stringify({ error: 'Заполните все поля для нового блюда.' }));
           }
-          const query = `
-            INSERT INTO menu (name, price, image, category, composition)
-            VALUES ($1, $2, $3, $4, $5) RETURNING *
-          `;
+          const query = `INSERT INTO menu (name, price, image, category, composition)
+                         VALUES ($1, $2, $3, $4, $5) RETURNING *`;
           const values = [newItem.name, newItem.price, newItem.image, newItem.category, newItem.composition || ''];
           const result = await pool.query(query, values);
           res.statusCode = 201;
@@ -73,7 +67,6 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Обработка маршрутов вида "/api/menu/{id}"
   const parts = cleanPath.split('/');
   if (parts.length !== 3 || isNaN(parts[2])) {
     res.statusCode = 404;
