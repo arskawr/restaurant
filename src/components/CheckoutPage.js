@@ -17,7 +17,6 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
 
   const validateInputs = () => {
-    // Регулярные выражения для валидации входных данных
     const nameRegex = /^[А-Яа-яЁё\s]+$/;
     const addressRegex = /^[А-Яа-яA-Za-z0-9\s.,/-]+$/;
     const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
@@ -45,7 +44,7 @@ const CheckoutPage = () => {
     setError('');
 
     try {
-      // Отправляем POST-запрос на /api/orders – без дополнительного сегмента!
+      // Отправляем запрос на "/api/orders" для создания заказа
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,7 +76,6 @@ const CheckoutPage = () => {
     <div className="checkout-page">
       <h1>Оформление заказа</h1>
       <div className="checkout-container">
-        {/* Блок с заказанными блюдами */}
         <div className="order-summary">
           <h2>Ваш заказ</h2>
           {cartItems.length === 0 ? (
@@ -102,8 +100,6 @@ const CheckoutPage = () => {
             </div>
           )}
         </div>
-
-        {/* Форма для ввода данных доставки */}
         <div className="order-form">
           <h2>Введите ваши данные</h2>
           <form onSubmit={handleSubmit}>

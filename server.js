@@ -10,12 +10,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Настройка подключения к MySQL (замените параметры на свои)
+// Настройка подключения к MySQL (параметры можно задавать через .env)
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '31214858',
-  database: 'spatkanne'
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASS || '31214858',
+  database: process.env.DB_NAME || 'spatkanne'
 });
 
 db.connect((err) => {
@@ -28,7 +28,7 @@ db.connect((err) => {
 
 // ---------------------- MENU ENDPOINTS -------------------------
 
-// GET: получить все блюда
+// GET: получение всех блюд
 app.get('/api/menu', (req, res) => {
   db.query("SELECT * FROM menu", (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -36,7 +36,7 @@ app.get('/api/menu', (req, res) => {
   });
 });
 
-// POST: добавить новое блюдо (с полем composition)
+// POST: добавить новое блюдо
 app.post('/api/menu', (req, res) => {
   const { name, price, image, category, composition } = req.body;
   if (!name || !price || !image || !category) {
@@ -49,7 +49,7 @@ app.post('/api/menu', (req, res) => {
   });
 });
 
-// PUT: редактировать блюдо по id (включая composition)
+// PUT: редактировать блюдо по id
 app.put('/api/menu/:id', (req, res) => {
   const { id } = req.params;
   const { name, price, image, category, composition } = req.body;
@@ -60,7 +60,6 @@ app.put('/api/menu/:id', (req, res) => {
       console.error("Ошибка при обновлении блюда:", err);
       return res.status(500).json({ error: err.message });
     }
-    // Выполняем SELECT, чтобы вернуть актуальные данные
     db.query("SELECT * FROM menu WHERE id = ?", [id], (err, rows) => {
       if (err) {
         console.error("Ошибка при получении обновлённого блюда:", err);
@@ -74,8 +73,6 @@ app.put('/api/menu/:id', (req, res) => {
     });
   });
 });
-
-
 
 // DELETE: удалить блюдо по id
 app.delete('/api/menu/:id', (req, res) => {
@@ -114,12 +111,10 @@ app.post('/api/auth/register', (req, res) => {
 // Вход (логин)
 app.post('/api/auth/login', (req, res) => {
   console.log("Получен запрос для логина:", req.body);
-  
   const { phone, password } = req.body;
   if (!phone || !password) {
     return res.status(400).json({ error: 'Введите номер и пароль' });
   }
-  
   const trimmedPhone = phone.trim();
   const trimmedPassword = password.trim();
   const query = 'SELECT * FROM users WHERE phone = ?';
@@ -132,22 +127,19 @@ app.post('/api/auth/login', (req, res) => {
     if (user.password.trim() !== trimmedPassword) {
       return res.status(400).json({ error: 'Неверный пароль' });
     }
-    
     console.log("Пользователь успешно авторизован. Отправляем данные:", {
       id: user.id,
       phone: user.phone,
       name: user.name,
       role: user.role
     });
-    
     res.json({ id: user.id, phone: user.phone, name: user.name, role: user.role });
   });
 });
 
-
 // ---------------------- ORDERS ENDPOINTS -------------------------
 
-// Создание нового заказа (заказ привязан к конкретному пользователю)
+// Создание нового заказа
 app.post('/api/orders', (req, res) => {
   console.log('POST /api/orders:', req.body);
   const { user_id, items, total } = req.body;
@@ -185,7 +177,7 @@ app.get('/api/orders/:user_id', (req, res) => {
 });
 
 // ---------------------- Запуск сервера -------------------------
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
