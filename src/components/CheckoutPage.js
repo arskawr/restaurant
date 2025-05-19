@@ -17,18 +17,13 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
 
   const validateInputs = () => {
+    // Регулярные выражения для валидации входных данных
     const nameRegex = /^[А-Яа-яЁё\s]+$/;
     const addressRegex = /^[А-Яа-яA-Za-z0-9\s.,/-]+$/;
     const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
-    if (!nameRegex.test(name.trim())) {
-      return false;
-    }
-    if (!addressRegex.test(address.trim())) {
-      return false;
-    }
-    if (!phoneRegex.test(phone.trim())) {
-      return false;
-    }
+    if (!nameRegex.test(name.trim())) return false;
+    if (!addressRegex.test(address.trim())) return false;
+    if (!phoneRegex.test(phone.trim())) return false;
     return true;
   };
 
@@ -48,8 +43,9 @@ const CheckoutPage = () => {
       return;
     }
     setError('');
-    
+
     try {
+      // Отправляем POST-запрос на /api/orders – без дополнительного сегмента!
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -68,7 +64,7 @@ const CheckoutPage = () => {
       clearCart();
     } catch (err) {
       console.error('Ошибка при оформлении заказа:', err);
-      setError('Ошибка при оформлении заказа');
+      setError('Ошибка при оформлении заказа.');
     }
   };
 
