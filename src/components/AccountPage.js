@@ -27,7 +27,7 @@ const AccountPage = () => {
           setLoadingOrders(false);
         })
         .catch((error) => {
-          console.error("Ошибка при получении заказов:", error);
+          console.error('Ошибка при получении заказов:', error);
           setOrdersError(error.message);
           setLoadingOrders(false);
         });
@@ -76,7 +76,7 @@ const AccountPage = () => {
                 <div key={order.id} className="card">
                   <h3>Заказ #{order.id}</h3>
                   <p>
-                    <strong>Дата:</strong>{' '}
+                    <strong>Дата:</strong>{" "}
                     {order.created_at ? new Date(order.created_at).toLocaleDateString() : '-'}
                   </p>
                   <p><strong>Итого:</strong> {order.total}</p>
