@@ -2,71 +2,107 @@
 
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
 const RegisterPage = () => {
-  const { register, error } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-  
-  const handleSubmit = async (e) => {
+  const [error, setError] = useState('');
+
+  // Регулярные выражения для валидации
+  const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
+  const nameRegex = /^[А-Яа-яЁё\s]+$/;
+
+  const handleRegister = async (e) => {
     e.preventDefault();
+
+    // Проверка заполненности полей
+    if (!phone || !name || !password) {
+      setError('Все поля обязательны для заполнения.');
+      return;
+    }
+    // Проверка формата номера телефона
+    if (!phoneRegex.test(phone.trim())) {
+      setError('Неверный формат номера телефона. Формат: +37529 123 45 67');
+      return;
+    }
+    // Проверка формата имени (только буквы русского алфавита)
+    if (!nameRegex.test(name.trim())) {
+      setError('Имя должно содержать только буквы русского алфавита.');
+      return;
+    }
+    // Проверка минимальной длины пароля
+    if (password.length < 6) {
+      setError('Пароль должен содержать не менее 6 символов.');
+      return;
+    }
+
     try {
-      await register({ phone, name, password });
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: phone.trim(),
+          name: name.trim(),
+          password: password.trim()
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || 'Ошибка при регистрации');
+        return;
+      }
+      // Успешная регистрация: можно установить данные пользователя и перейти в личный кабинет
+      setUser(data);
       navigate('/account');
     } catch (err) {
-      console.error('Ошибка регистрации:', err);
+      console.error("Registration error:", err);
+      setError('Ошибка при регистрации.');
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-box">
-        <h1 className="auth-title">Регистрация</h1>
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Номер телефона:</label>
-            <input
-              type="text"
-              className="auth-input"
-              placeholder="+375336780919"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Имя:</label>
-            <input
-              type="text"
-              className="auth-input"
-              placeholder="Ваше имя"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Пароль:</label>
-            <input
-              type="password"
-              className="auth-input"
-              placeholder="Введите пароль"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="auth-button">Зарегистрироваться</button>
-        </form>
-        <p className="auth-bottom-info">
-          Уже есть аккаунт? <Link to="/login">Войти</Link>
-        </p>
-      </div>
+    <div className="register-page">
+      <h1>Регистрация</h1>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleRegister}>
+        <div>
+          <label>Номер телефона:</label>
+          <input
+            type="text"
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+            placeholder="+37529 123 45 67"
+            required
+          />
+        </div>
+        <div>
+          <label>Имя:</label>
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Введите ваше имя"
+            required
+          />
+        </div>
+        <div>
+          <label>Пароль:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Введите пароль"
+            required
+          />
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+      </form>
     </div>
   );
 };

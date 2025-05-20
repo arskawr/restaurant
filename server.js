@@ -90,13 +90,29 @@ app.delete('/api/menu/:id', (req, res) => {
 // ---------------------- AUTH ENDPOINTS -------------------------
 
 // Регистрация пользователя
+// Регистрация пользователя
 app.post('/api/auth/register', (req, res) => {
   const { phone, name, password } = req.body;
   if (!phone || !name || !password) {
     return res.status(400).json({ error: 'Заполните все поля' });
   }
   const trimmedPhone = phone.trim();
+  const trimmedName = name.trim();
   const trimmedPassword = password.trim();
+
+  // Дополнительная валидация: формат номера телефона и имени
+  const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
+  const nameRegex = /^[А-Яа-яЁё\s]+$/;
+  if (!phoneRegex.test(trimmedPhone)) {
+    return res.status(400).json({ error: 'Неверный формат номера телефона. Формат: +37529 123 45 67' });
+  }
+  if (!nameRegex.test(trimmedName)) {
+    return res.status(400).json({ error: 'Имя должно содержать только буквы русского алфавита.' });
+  }
+  if (trimmedPassword.length < 6) {
+    return res.status(400).json({ error: 'Пароль должен содержать не менее 6 символов.' });
+  }
+
   const checkQuery = 'SELECT * FROM users WHERE phone = ?';
   db.query(checkQuery, [trimmedPhone], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -104,12 +120,13 @@ app.post('/api/auth/register', (req, res) => {
       return res.status(400).json({ error: 'Пользователь с таким номером уже существует' });
     }
     const insertQuery = 'INSERT INTO users (phone, name, password, role) VALUES (?, ?, ?, ?)';
-    db.query(insertQuery, [trimmedPhone, name, trimmedPassword, 'user'], (err, result) => {
+    db.query(insertQuery, [trimmedPhone, trimmedName, trimmedPassword, 'user'], (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: result.insertId, phone: trimmedPhone, name, role: 'user' });
+      res.json({ id: result.insertId, phone: trimmedPhone, name: trimmedName, role: 'user' });
     });
   });
 });
+
 
 // Вход (логин)
 app.post('/api/auth/login', (req, res) => {
