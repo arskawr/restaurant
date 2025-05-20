@@ -209,7 +209,6 @@ body {
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  /* Если текст одной строки, можно задавать line-height равный высоте блока для вертикального центрирования: */
   line-height: 60mm;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
@@ -222,9 +221,7 @@ body {
   /* Убираем margin-top, чтобы контент начинался сразу после шапки */
   margin-top: 0;
   min-height: 100vh; /* фон занимает всю высоту окна */
- /* background: url('https://img.freepik.com/premium-photo/diet-food-meal-fresh-herb-salad-weight-loss-low-calorie-dish-healthy-fit-body_201836-8492.jpg') no-repeat center center;
-  background-size: cover;
-  background-attachment: fixed;*/
+
   background-color: rgb(248, 238, 225);
 }
 
@@ -645,11 +642,6 @@ body {
   border-radius: 4px;
 }
 
-/* ===== Стили для страницы бронирования столика ===== */
-
-
-
-
 
 /* Общие стили для страницы аккаунта */
 .account-page {
@@ -727,30 +719,6 @@ body {
   justify-content: center;
 }
 
-/* Карточка для заказа/бронирования */
-.card {
-  flex: 1 1 250px;
-  background: #f7f7f7;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.card:hover {
-  transform: scale(1.02);
-}
-
-.card h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.card p {
-  margin: 5px 0;
-  color: #555;
-}
 
 /* Стили для ссылки панели администратора */
 .admin-panel-link {
@@ -963,185 +931,123 @@ body {
   font-size: 0.9rem;
 }
 
+/* ===================================== */
+/* Стили для страницы входа и регистрации */
 
-/* Стили для страницы регистрации */
-.register-page {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 100vh !important;
-  background-color: #fafafa !important; /* нейтральный фон */
-}
-
-.register-page .form-container {
-  width: 100% !important;
-  max-width: 400px !important;
-  background-color: #fff !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-  padding: 20px !important;
-  margin: 30px auto !important;
-  box-sizing: border-box !important;
-}
-
-.register-page .form-container h1 {
-  text-align: center !important;
-  margin-bottom: 20px !important;
-  font-family: Arial, sans-serif !important;
-  color: #333 !important;
-}
-
-.register-page .form-container form {
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.register-page .form-container form > div {
-  margin-bottom: 15px !important;
-}
-
-.register-page .form-container label {
-  display: block !important;
-  font-size: 14px !important;
-  color: #555 !important;
-  margin-bottom: 5px !important;
-}
-
-.register-page .form-container input {
-  width: 100% !important;
-  padding: 10px !important;
-  font-size: 14px !important;
-  color: #333 !important;
-  border: 1px solid #ddd !important;
-  border-radius: 4px !important;
-  box-sizing: border-box !important;
-}
-
-.register-page .form-container button {
-  padding: 10px !important;
-  background-color: #2a9d8f !important;
-  border: none !important;
-  border-radius: 4px !important;
-  color: #fff !important;
-  font-size: 16px !important;
-  cursor: pointer !important;
-  margin-top: 10px !important;
-  transition: background-color 0.3s ease !important;
-}
-
-.register-page .form-container button:hover {
-  background-color: #21867a !important;
-}
-
-.register-page .form-container .error-message {
-  color: #d9534f !important;
-  font-size: 14px !important;
-  margin-bottom: 15px !important;
-  text-align: center !important;
-}
-
-/* Стили для страницы входа */
+/* Эти стили применяются только для классов .login-page и .register-page, не влияя на остальной интерфейс */
+.register-page,
 .login-page {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 100vh !important;
-  background-color: #fafafa !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #fafafa; /* Легкий нейтральный фон */
 }
 
+/* Вложенный контейнер в формах входа/регистрации */
+.register-page .form-container,
 .login-page .form-container {
-  width: 100% !important;
-  max-width: 400px !important;
-  background-color: #fff !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-  padding: 20px !important;
-  margin: 30px auto !important;
-  box-sizing: border-box !important;
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Заголовок формы (только внутри входа/регистрации) */
+.register-page .form-container h1,
 .login-page .form-container h1 {
-  text-align: center !important;
-  margin-bottom: 20px !important;
-  font-family: Arial, sans-serif !important;
-  color: #333 !important;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2a9d8f;
 }
 
+/* Стили для формы внутри окна входа/регистрации */
+.register-page .form-container form,
 .login-page .form-container form {
-  display: flex !important;
-  flex-direction: column !important;
+  display: flex;
+  flex-direction: column;
 }
 
-.login-page .form-container form > div {
-  margin-bottom: 15px !important;
-}
-
+.register-page .form-container label,
 .login-page .form-container label {
-  display: block !important;
-  font-size: 14px !important;
-  color: #555 !important;
-  margin-bottom: 5px !important;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
 }
 
+.register-page .form-container input,
 .login-page .form-container input {
-  width: 100% !important;
-  padding: 10px !important;
-  font-size: 14px !important;
-  color: #333 !important;
-  border: 1px solid #ddd !important;
-  border-radius: 4px !important;
-  box-sizing: border-box !important;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
 }
 
+.register-page .form-container button,
 .login-page .form-container button {
-  padding: 10px !important;
-  background-color: #2a9d8f !important;
-  border: none !important;
-  border-radius: 4px !important;
-  color: #fff !important;
-  font-size: 16px !important;
-  cursor: pointer !important;
-  margin-top: 10px !important;
-  transition: background-color 0.3s ease !important;
+  padding: 10px;
+  background-color: #2a9d8f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
+.register-page .form-container button:hover,
 .login-page .form-container button:hover {
-  background-color: #21867a !important;
+  background-color: #21867a;
 }
 
+/* Сообщения об ошибках (только в формах входа/регистрации) */
+.register-page .form-container .error-message,
 .login-page .form-container .error-message {
-  color: #d9534f !important;
-  font-size: 14px !important;
-  margin-bottom: 15px !important;
-  text-align: center !important;
+  color: #d9534f;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
+/* ===================================== */
 /* Стили для страницы бронирования */
+
+/* Основной контейнер страницы бронирования */
 .reservation-page {
-  padding: 20px !important;
-  margin: 70px auto 20px !important; /* отступ сверху для фиксированной шапки, центрирование страницы */
-  max-width: 800px !important;
-  box-sizing: border-box !important;
-  background: linear-gradient(to bottom right, #f0f9ff, #e0f2ff) !important;
+  padding: 20px;
+  margin: 70px auto 20px; /* Отступ сверху для фиксированной шапки, центрирование страницы */
+  max-width: 800px;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom right, #f0f9ff, #e0f2ff); /* Непринужденный градиентный фон */
 }
 
+/* Заголовок страницы бронирования */
 .reservation-page h1 {
-  text-align: center !important;
-  margin-bottom: 30px !important;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #333;
 }
 
-.reservation-page .reservation-container {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  gap: 20px !important;
-  width: 100% !important;
-  max-width: 500px !important;
-  background-color: #ffffff !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-  padding: 30px !important;
-  margin: 0 auto !important;
+/* Вложенный контейнер, оформленный в виде карточки */
+.reservation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 0 auto;
 }
