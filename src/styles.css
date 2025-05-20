@@ -951,33 +951,35 @@ body {
 }
 
 /* ===================================== */
-/* Стили для страницы бронирования (обновленные, современный вид) */
+/* Новые стили для страницы бронирования */
+/* Фон на весь экран, современный и симпатичный контейнер */
 .reservation-page {
-  padding: 30px;
-  margin: 80px auto 20px;
-  max-width: 900px;
-  box-sizing: border-box;
-  background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%);
-  border-radius: 10px;
-}
-
-.reservation-page h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 32px;
-  color: #333;
-}
-
-.reservation-container {
+  min-height: 100vh;            /* Фон занимает всю высоту экрана */
+  width: 100%;
+  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%); /* Современный градиент */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Заголовок страницы бронирования */
+.reservation-page h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Контейнер для формы бронирования */
+.reservation-container {
   width: 100%;
   max-width: 600px;
   background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   margin: 0 auto;
 }

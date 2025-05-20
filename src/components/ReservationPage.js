@@ -8,7 +8,7 @@ const ReservationPage = () => {
   const [firstName, setFirstName] = useState('');
   const [phone, setPhone] = useState('');
   const [date, setDate] = useState('');
-  const [time, setTime] = useState('00:00'); // значение по умолчанию
+  const [time, setTime] = useState('00:00');
   const [people, setPeople] = useState(1);
   const [error, setError] = useState('');
   const [reservationPlaced, setReservationPlaced] = useState(false);
@@ -58,7 +58,7 @@ const ReservationPage = () => {
     }
     setError('');
     setReservationPlaced(true);
-    // Здесь можно добавить вызов API для бронирования
+    // Здесь можно вызвать API для бронирования
   };
 
   const handleMainButton = () => {

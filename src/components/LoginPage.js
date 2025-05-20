@@ -14,7 +14,7 @@ const LoginPage = () => {
   const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // убедитесь, что e передается от формы
 
     if (!phone || !password) {
       setError('Все поля обязательны для заполнения.');
