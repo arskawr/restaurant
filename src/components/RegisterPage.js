@@ -14,30 +14,25 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Регулярные выражения для валидации
   const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
   const nameRegex = /^[А-Яа-яЁё\s]+$/;
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Проверка заполненности полей
     if (!phone || !name || !password) {
       setError('Все поля обязательны для заполнения.');
       return;
     }
-    // Проверка формата номера телефона
     if (!phoneRegex.test(phone.trim())) {
       setError('Неверный формат номера телефона. Формат: +37529 123 45 67');
       return;
     }
-    // Проверка формата имени (только буквы русского алфавита)
     if (!nameRegex.test(name.trim())) {
       setError('Имя должно содержать только буквы русского алфавита.');
       return;
     }
-    // Проверка минимальной длины пароля
-    if (password.length < 6) {
+    if (password.trim().length < 6) {
       setError('Пароль должен содержать не менее 6 символов.');
       return;
     }
@@ -57,11 +52,10 @@ const RegisterPage = () => {
         setError(data.error || 'Ошибка при регистрации');
         return;
       }
-      // Успешная регистрация: можно установить данные пользователя и перейти в личный кабинет
       setUser(data);
       navigate('/account');
     } catch (err) {
-      console.error("Registration error:", err);
+      console.error('Registration error:', err);
       setError('Ошибка при регистрации.');
     }
   };
@@ -73,30 +67,30 @@ const RegisterPage = () => {
       <form onSubmit={handleRegister}>
         <div>
           <label>Номер телефона:</label>
-          <input
-            type="text"
+          <input 
+            type="text" 
             value={phone}
-            onChange={e => setPhone(e.target.value)}
+            onChange={(e) => setPhone(e.target.value)}
             placeholder="+37529 123 45 67"
             required
           />
         </div>
         <div>
           <label>Имя:</label>
-          <input
-            type="text"
+          <input 
+            type="text" 
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Введите ваше имя"
             required
           />
         </div>
         <div>
           <label>Пароль:</label>
-          <input
-            type="password"
+          <input 
+            type="password" 
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Введите пароль"
             required
           />

@@ -2,59 +2,80 @@
 
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
 const LoginPage = () => {
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const { login, error } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (!phone || !password) {
+      setError('Все поля обязательны для заполнения.');
+      return;
+    }
+    if (!phoneRegex.test(phone.trim())) {
+      setError('Неверный формат номера телефона. Формат: +37529 123 45 67');
+      return;
+    }
+
     try {
-      await login({ phone, password });
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: phone.trim(),
+          password: password.trim()
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || 'Ошибка при входе');
+        return;
+      }
+      setUser(data);
       navigate('/account');
     } catch (err) {
-      console.error('Ошибка логина:', err);
+      console.error('Login error:', err);
+      setError('Ошибка при входе.');
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-box">
-        <h1 className="auth-title">Вход</h1>
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Номер телефона:</label>
-            <input
-              type="text"
-              className="auth-input"
-              placeholder="+375336780919"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Пароль:</label>
-            <input
-              type="password"
-              className="auth-input"
-              placeholder="Введите пароль"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="auth-button">Войти</button>
-        </form>
-        <p className="auth-bottom-info">
-          Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
-        </p>
-      </div>
+    <div className="login-page">
+      <h1>Вход в систему</h1>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Номер телефона:</label>
+          <input 
+            type="text" 
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="+37529 123 45 67"
+            required
+          />
+        </div>
+        <div>
+          <label>Пароль:</label>
+          <input 
+            type="password" 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Введите пароль"
+            required
+          />
+        </div>
+        <button type="submit">Войти</button>
+      </form>
     </div>
   );
 };

@@ -90,7 +90,6 @@ app.delete('/api/menu/:id', (req, res) => {
 // ---------------------- AUTH ENDPOINTS -------------------------
 
 // Регистрация пользователя
-// Регистрация пользователя
 app.post('/api/auth/register', (req, res) => {
   const { phone, name, password } = req.body;
   if (!phone || !name || !password) {
@@ -100,7 +99,6 @@ app.post('/api/auth/register', (req, res) => {
   const trimmedName = name.trim();
   const trimmedPassword = password.trim();
 
-  // Дополнительная валидация: формат номера телефона и имени
   const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
   const nameRegex = /^[А-Яа-яЁё\s]+$/;
   if (!phoneRegex.test(trimmedPhone)) {
@@ -128,17 +126,21 @@ app.post('/api/auth/register', (req, res) => {
 });
 
 
+
 // Вход (логин)
 app.post('/api/auth/login', (req, res) => {
-  console.log("Получен запрос для логина:", req.body);
-  
   const { phone, password } = req.body;
   if (!phone || !password) {
-    return res.status(400).json({ error: 'Введите номер и пароль' });
+    return res.status(400).json({ error: 'Все поля обязательны для входа' });
   }
-  
   const trimmedPhone = phone.trim();
   const trimmedPassword = password.trim();
+
+  const phoneRegex = /^\+375\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/;
+  if (!phoneRegex.test(trimmedPhone)) {
+    return res.status(400).json({ error: 'Неверный формат номера телефона. Формат: +37529 123 45 67' });
+  }
+
   const query = 'SELECT * FROM users WHERE phone = ?';
   db.query(query, [trimmedPhone], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -149,17 +151,10 @@ app.post('/api/auth/login', (req, res) => {
     if (user.password.trim() !== trimmedPassword) {
       return res.status(400).json({ error: 'Неверный пароль' });
     }
-    
-    console.log("Пользователь успешно авторизован. Отправляем данные:", {
-      id: user.id,
-      phone: user.phone,
-      name: user.name,
-      role: user.role
-    });
-    
     res.json({ id: user.id, phone: user.phone, name: user.name, role: user.role });
   });
 });
+
 
 
 // ---------------------- ORDERS ENDPOINTS -------------------------
