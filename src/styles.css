@@ -884,141 +884,635 @@ body {
 /* ===================================== */
 /* Стили для окон входа и регистрации */
 /* Здесь используем классы .register-page и .login-page, как указано в компонентах */
-
-.register-page,
-.login-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f0f2f5;
-  padding: 1rem;
+/* ===================================== */
+/* ===== Общие стили ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Оформление страницы регистрации */
-.register-page h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f4f4;
   color: #333;
 }
 
-.register-page form {
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.register-page label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-  color: #555;
-}
-
-.register-page input {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.register-page button {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.register-page button:hover {
-  background-color: #0056b3;
-}
-
-.register-page .error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* Оформление страницы входа */
-.login-page h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  color: #333;
-}
-
-.login-page form {
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.login-page label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-  color: #555;
-}
-
-.login-page input {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.login-page button {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.login-page button:hover {
-  background-color: #0056b3;
-}
-
-.login-page .error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 1rem;
+.main-content {
+  padding: 20px;
 }
 
 /* ===================================== */
-/* Стили для страницы бронирования */
-.reservation-page {
-  padding: 20px;
-  margin: 70px auto 20px;
-  max-width: 800px;
+/* ============ Header ============ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 20px;
+  z-index: 1000;
   box-sizing: border-box;
-  background: linear-gradient(to bottom right, #f0f9ff, #e0f2ff);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Логотип */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-line {
+  flex: 1;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 0 10px;
+}
+
+.logo-link {
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Навигационное меню */
+.nav-menu {
+  position: relative;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  position: static;
+}
+
+.nav-links li a,
+.nav-links li button {
+  text-decoration: none;
+  font-size: 18px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Кнопка "Еще" для мобильных – по умолчанию скрыта */
+.menu-toggle {
+  display: none;
+}
+
+/* --- Мобильные стили для Header (макс. ширина 768px) --- */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #333;
+    z-index: 1001;
+    position: relative;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-links.open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: #fff;
+    z-index: 1000;
+  }
+  
+  .nav-links li {
+    text-align: center;
+  }
+  
+  .nav-links li a,
+  .nav-links li button {
+    font-size: 24px;
+    padding: 10px;
+  }
+}
+
+/* ===================================== */
+/* ===== Стили для hero-секции (главный баннер) ===== */
+.hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.hero-overlay h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.hero-overlay p {
+  font-size: 24px;
+}
+
+/* ===================================== */
+/* Стили для блока меню на главной странице */
+.menu-block {
+  background-color: #f5f5dc; /* нейтральный бежевый фон */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.menu-block h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.menu-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.menu-item {
+  position: relative;
+  width: 80mm;
+  height: 60mm;
+  border-radius: 8px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.menu-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.menu-item span {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 60mm;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ===================================== */
+/* Стили для страницы категории */
+.category-page {
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 0;
+  min-height: 100vh;
+  background-color: rgb(248, 238, 225);
+}
+
+.category-title {
+  text-align: center;
+  font-size: 38px;
+  margin-bottom: 30px;
+  color: #353535;
+}
+
+.food-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+.food-card {
+  width: 80mm;
+  height: 100mm;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fff;
+  position: relative;
+}
+
+.food-image {
+  flex: 1 1 70%;
+  background-size: cover;
+  background-position: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.food-details {
+  flex: 1 1 50%;
+  padding: 8px;
+  background: #fcfcfc;
+  font-size: 30px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.food-details h3 {
+  margin: 4px 0;
+  font-size: 20px;
+  align-self: center;
+  color: #333;
+}
+
+.food-price,
+.food-composition {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* ===================================== */
+/* Стили для управления количеством */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.increment,
+.decrement {
+  background-color: #ddd;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+.added {
+  background-color: green;
+  border: none;
+  padding: 5px 10px;
+  color: white;
+  font-size: 20px;
+  border-radius: 15px;
+}
+
+.quantity {
+  font-size: 14px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* Кнопка добавления в корзину внутри food-details */
+.add-to-cart-btn {
+  display: block;
+  margin: 15px auto 0;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #1e7e34;
+  transform: scale(1.05);
+}
+
+.cart-icon {
+  width: 28px;
+  height: 28px;
+  filter: invert(1);
+  display: block;
+  margin: auto;
+}
+
+/* ===================================== */
+/* Стили для модального окна корзины */
+.cart-modal-overlay {
+  position: fixed;
+  top: 70px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 5000;
+}
+
+.cart-modal {
+  background: #fff;
+  width: 300px;
+  max-height: 60vh;
+  padding: 20px;
+  margin-top: 5px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.cart-modal-content {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cart-item-image {
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-position: center;
+  margin-right: 10px;
+}
+
+.cart-item-details h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.cart-item-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.cart-modal-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.total {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.checkout-button {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* ===================================== */
+/* Стили для страницы оформления заказа */
+.checkout-page {
+  padding: 20px;
+  margin-top: 0;
+  background: #f9f9f9;
+}
+
+.checkout-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #333;
+}
+
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.order-summary {
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+.order-items-block {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.order-summary-item {
+  flex: 0 0 auto;
+  width: 200px;
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.order-summary-item:hover {
+  transform: scale(1.02);
+}
+
+.order-item-image {
+  width: 180px;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.order-item-details p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.order-total {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: right;
+}
+
+/* Форма для доставки */
+.order-form {
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-form h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.order-form .error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.submit-order {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.submit-order:hover {
+  background: #218838;
+}
+
+/* Окно подтверждения заказа */
+.order-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15000;
+}
+
+.order-confirmation-modal {
+  background: #fff;
+  padding: 40px 60px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.main-button {
+  background: #00cc55;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+
+/* ===================================== */
+/* Стили для страницы бронирования (обновленные, более красивые) */
+.reservation-page {
+  padding: 30px;
+  margin: 80px auto 20px;
+  max-width: 900px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%);
+  border-radius: 10px;
 }
 
 .reservation-page h1 {
   text-align: center;
   margin-bottom: 30px;
-  font-size: 28px;
+  font-size: 32px;
   color: #333;
 }
 
@@ -1028,10 +1522,248 @@ body {
   align-items: center;
   gap: 20px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px;
   margin: 0 auto;
+}
+
+/* ===================================== */
+/* Стили для страницы аккаунта */
+.account-page {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.account-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.account-header h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.logout-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.account-section {
+  margin-bottom: 30px;
+}
+
+.account-section h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.admin-panel-link {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.admin-link {
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.admin-link:hover {
+  background-color: #0069d9;
+}
+
+.admin-panel {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-panel h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+.admin-panel h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.menu-table th,
+.menu-table td {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.menu-table th {
+  background: #f3f3f3;
+  font-weight: bold;
+}
+
+.admin-item-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.menu-table button {
+  padding: 6px 10px;
+  margin: 0 3px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.menu-table button:hover {
+  opacity: 0.9;
+}
+
+.menu-table button:first-of-type {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.menu-table button:last-of-type {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.add-menu-item {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.add-menu-item h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+.add-menu-item-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-menu-item-form input,
+.add-menu-item-form select {
+  flex: 1 1 200px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-menu-item-form button {
+  padding: 10px 20px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-menu-item-form button:hover {
+  background: #218838;
+}
+
+/* ===================================== */
+/* Стили для компонента CustomTimePicker */
+.custom-time-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.custom-time-picker select {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.custom-time-picker .time-separator {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ===================================== */
+/* Итоговые общие стили для класса .error-message */
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 1rem;
 }
