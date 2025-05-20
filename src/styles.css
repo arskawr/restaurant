@@ -295,8 +295,299 @@ body {
   color: #666;
 }
 
+/* ===================================== */
+/* ===== Общие стили ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* ===== Стили для управления количеством ===== */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Пример базового контейнера для основного контента */
+.main-content {
+  padding: 20px;
+}
+
+/* ===================================== */
+/* ============ Header ============ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 20px;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Логотип */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-line {
+  flex: 1;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 0 10px;
+}
+
+.logo-link {
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Навигационное меню */
+.nav-menu {
+  position: relative;
+}
+
+/* Список ссылок – для десктопа горизонтально */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  position: static;
+}
+
+.nav-links li a,
+.nav-links li button {
+  text-decoration: none;
+  font-size: 18px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Кнопка "Еще" для мобильных – по умолчанию скрыта */
+.menu-toggle {
+  display: none;
+}
+
+/* --- Мобильные стили для Header (макс. ширина 768px) --- */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #333;
+    z-index: 1001;
+    position: relative;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-links.open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: #fff;
+    z-index: 1000;
+  }
+  
+  .nav-links li {
+    text-align: center;
+  }
+  
+  .nav-links li a,
+  .nav-links li button {
+    font-size: 24px;
+    padding: 10px;
+  }
+}
+
+/* ===================================== */
+/* ===== Стили для hero-секции (главный баннер) ===== */
+.hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.hero-overlay h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.hero-overlay p {
+  font-size: 24px;
+}
+
+/* ===================================== */
+/* Стили для блока меню на главной странице */
+.menu-block {
+  background-color: #f5f5dc; /* нейтральный бежевый фон */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.menu-block h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+/* Контейнер для элементов меню */
+.menu-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Стили для каждого элемента меню */
+.menu-item {
+  position: relative;
+  width: 80mm;
+  height: 60mm;
+  border-radius: 8px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.menu-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.menu-item span {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 60mm;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ===================================== */
+/* Стили для страницы категории */
+.category-page {
+  padding: 20px;
+  box-sizing: border-box;
+  /* Контент начинается сразу после шапки */
+  margin-top: 0;
+  min-height: 100vh;
+  background-color: rgb(248, 238, 225);
+}
+
+.category-title {
+  text-align: center;
+  font-size: 38px;
+  margin-bottom: 30px;
+  color: #353535;
+}
+
+.food-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+.food-card {
+  width: 80mm;
+  height: 100mm;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fff;
+  position: relative;
+}
+
+.food-image {
+  flex: 1 1 70%;
+  background-size: cover;
+  background-position: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.food-details {
+  flex: 1 1 50%;
+  padding: 8px;
+  background: #fcfcfc;
+  font-size: 30px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.food-details h3 {
+  margin: 4px 0;
+  font-size: 20px;
+  align-self: center;
+  color: #333;
+}
+
+.food-price,
+.food-composition {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* ===================================== */
+/* Стили для управления количеством */
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -331,45 +622,38 @@ body {
   text-align: center;
 }
 
-
-/* Обновлённый стиль для кнопки добавления в корзину, расположенной внутри food-details */
+/* Обновлённый стиль для кнопки добавления в корзину внутри food-details */
 .add-to-cart-btn {
   display: block;
-  margin: 15px auto 0; /* отступ сверху и центрирование */
-  width: 50px;         /* задаём размеры кнопки */
+  margin: 15px auto 0;
+  width: 50px;
   height: 50px;
   border: none;
-  border-radius: 50%;  /* делает кнопку круглой */
-
+  border-radius: 50%;
   cursor: pointer;
   padding: 0;
-  filter: none();
   outline: none;
   transition: background-color 0.3s, transform 0.3s;
-} 
+}
 
 .add-to-cart-btn:hover {
   background-color: #1e7e34;
   transform: scale(1.05);
 }
 
-/* Стили для значка внутри кнопки */
 .cart-icon {
-  width: 28px;   /* размер иконки */
+  width: 28px;
   height: 28px;
-  filter: invert(1); /* если нужно, чтобы иконка была белой */
+  filter: invert(1);
   display: block;
   margin: auto;
 }
 
-/* ===== Модальное окно корзины ===== */
-
-
-
-
+/* ===================================== */
+/* Стили для модального окна корзины */
 .cart-modal-overlay {
   position: fixed;
-  top: 70px; /* ниже шапки */
+  top: 70px; /* ниже хедера */
   right: 0;
   bottom: 0;
   left: 0;
@@ -434,7 +718,6 @@ body {
   color: #555;
 }
 
-/* Футер корзины */
 .cart-modal-footer {
   margin-top: 20px;
   text-align: center;
@@ -455,10 +738,11 @@ body {
   font-size: 16px;
 }
 
-/* ===== Стили для страницы оформления заказа ===== */
+/* ===================================== */
+/* Стили для страницы оформления заказа */
 .checkout-page {
   padding: 20px;
-  margin-top: 0px; /* учитываем фиксированный header */
+  margin-top: 0;
   background: #f9f9f9;
 }
 
@@ -469,14 +753,13 @@ body {
   color: #333;
 }
 
-/* Контейнер для сводки заказа и формы, располагается вертикально */
 .checkout-container {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
 
-/* ===== Сводка заказа ===== */
+/* Сводка заказа */
 .order-summary {
   padding: 20px;
   background: #fff;
@@ -486,14 +769,12 @@ body {
 }
 
 .order-summary h2 {
-  
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 22px;
   color: #333;
 }
 
-/* Контейнер для заказанных блюд — горизонтальное расположение с прокруткой */
 .order-items-block {
   display: flex;
   gap: 20px;
@@ -501,7 +782,6 @@ body {
   padding-bottom: 10px;
 }
 
-/* Каждый элемент заказа (блюдо) */
 .order-summary-item {
   flex: 0 0 auto;
   width: 200px;
@@ -517,7 +797,6 @@ body {
   transform: scale(1.02);
 }
 
-/* Изображение блюда — увеличенные размеры, закругленные края */
 .order-item-image {
   width: 180px;
   height: 180px;
@@ -527,14 +806,12 @@ body {
   margin-bottom: 10px;
 }
 
-/* Детали блюда */
 .order-item-details p {
   margin: 5px 0;
   font-size: 16px;
   color: #555;
 }
 
-/* Итоговая сумма заказа */
 .order-total {
   font-size: 20px;
   font-weight: bold;
@@ -542,10 +819,8 @@ body {
   text-align: right;
 }
 
-
-/* ===== Форма для доставки ===== */
+/* Форма для доставки */
 .order-form {
-  /*max-width: 600px;*/
   padding: 20px;
   background: #fff;
   border: 1px solid #e0e0e0;
@@ -581,14 +856,14 @@ body {
   box-sizing: border-box;
 }
 
-/* Сообщение об ошибке */
-.error-message {
+/* Здесь глобальная ошибка для форм доставки (если не переопределено) */
+.order-form .error-message {
   color: red;
   font-size: 14px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
-/* Кнопка оформления заказа */
 .submit-order {
   background: #28a745;
   color: #fff;
@@ -605,8 +880,7 @@ body {
   background: #218838;
 }
 
-
-/* ===== Окно подтверждения заказа ===== */
+/* Окно подтверждения заказа */
 .order-confirmation-overlay {
   position: fixed;
   top: 0;
@@ -642,8 +916,39 @@ body {
   border-radius: 4px;
 }
 
+/* ===================================== */
+/* Стили для страницы бронирования */
+.reservation-page {
+  padding: 20px;
+  margin: 70px auto 20px; /* отступ сверху для фиксированной шапки, центрирование */
+  max-width: 800px;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom right, #f0f9ff, #e0f2ff);
+}
 
-/* Общие стили для страницы аккаунта */
+.reservation-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #333;
+}
+
+.reservation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 0 auto;
+}
+
+/* ===================================== */
+/* Стили для страницы аккаунта */
 .account-page {
   max-width: 800px;
   margin: 20px auto;
@@ -700,7 +1005,6 @@ body {
   text-decoration: underline;
 }
 
-/* Секции аккаунта */
 .account-section {
   margin-bottom: 30px;
 }
@@ -711,7 +1015,6 @@ body {
   margin-bottom: 15px;
 }
 
-/* Контейнер для карточек (заказы и бронирования) */
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -719,8 +1022,6 @@ body {
   justify-content: center;
 }
 
-
-/* Стили для ссылки панели администратора */
 .admin-panel-link {
   text-align: center;
   margin-top: 30px;
@@ -740,7 +1041,6 @@ body {
   background-color: #0069d9;
 }
 
-/* Стили для панели администратора */
 .admin-panel {
   max-width: 1100px;
   margin: 20px auto;
@@ -764,7 +1064,6 @@ body {
   color: #333;
 }
 
-/* Таблица для отображения блюд */
 .menu-table {
   width: 100%;
   border-collapse: collapse;
@@ -783,7 +1082,6 @@ body {
   font-weight: bold;
 }
 
-/* Стилизация изображений в таблице */
 .admin-item-img {
   width: 60px;
   height: 60px;
@@ -791,7 +1089,6 @@ body {
   border-radius: 5px;
 }
 
-/* Кнопки таблицы */
 .menu-table button {
   padding: 6px 10px;
   margin: 0 3px;
@@ -815,7 +1112,6 @@ body {
   color: #fff;
 }
 
-/* Форма добавления нового блюда */
 .add-menu-item {
   margin-top: 30px;
   padding: 20px;
@@ -861,8 +1157,11 @@ body {
   background: #218838;
 }
 
+/* ===================================== */
+/* ===== Стили для окон входа и регистрации ===== */
+/* Новое оформление для страниц авторизации, используем .auth-container и .auth-box */
+/* Эти стили не затрагивают остальной интерфейс */
 
-/* Центрирование окна аутентификации */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -872,7 +1171,6 @@ body {
   padding: 1rem;
 }
 
-/* Оформление окна (рамка, тень, закругленные углы) */
 .auth-box {
   background-color: #ffffff;
   padding: 2rem;
@@ -882,7 +1180,6 @@ body {
   max-width: 400px;
 }
 
-/* Заголовок формы */
 .auth-title {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -890,7 +1187,6 @@ body {
   color: #333;
 }
 
-/* Стилизация полей ввода */
 .auth-input {
   width: 100%;
   padding: 0.75rem;
@@ -900,14 +1196,13 @@ body {
   font-size: 1rem;
 }
 
-/* Кнопка отправки формы */
 .auth-button {
   width: 100%;
   padding: 0.75rem;
   border: none;
   border-radius: 4px;
   background-color: #007bff;
-  color: white;
+  color: #fff;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -917,14 +1212,14 @@ body {
   background-color: #0056b3;
 }
 
-/* Сообщение об ошибке */
-.error-message {
+/* Ошибки только для страницы авторизации */
+.auth-box .error-message {
   color: red;
   text-align: center;
   margin-bottom: 1rem;
 }
 
-/* Информация в нижней части окна */
+/* Информация внизу для ссылки на регистрацию/вход */
 .auth-bottom-info {
   text-align: center;
   margin-top: 1rem;
@@ -932,122 +1227,12 @@ body {
 }
 
 /* ===================================== */
-/* Стили для страницы входа и регистрации */
-
-/* Эти стили применяются только для классов .login-page и .register-page, не влияя на остальной интерфейс */
-.register-page,
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #fafafa; /* Легкий нейтральный фон */
-}
-
-/* Вложенный контейнер в формах входа/регистрации */
-.register-page .form-container,
-.login-page .form-container {
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
-  padding: 20px;
-  margin: 20px auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Заголовок формы (только внутри входа/регистрации) */
-.register-page .form-container h1,
-.login-page .form-container h1 {
+/* Итоговые общие стили для класса .error-message, если не переопределено в конкретном блоке */
+.error-message {
+  color: red;
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #2a9d8f;
+  margin-bottom: 1rem;
 }
 
-/* Стили для формы внутри окна входа/регистрации */
-.register-page .form-container form,
-.login-page .form-container form {
-  display: flex;
-  flex-direction: column;
-}
 
-.register-page .form-container label,
-.login-page .form-container label {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 6px;
-}
 
-.register-page .form-container input,
-.login-page .form-container input {
-  padding: 10px;
-  font-size: 14px;
-  color: #333;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 15px;
-}
-
-.register-page .form-container button,
-.login-page .form-container button {
-  padding: 10px;
-  background-color: #2a9d8f;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.register-page .form-container button:hover,
-.login-page .form-container button:hover {
-  background-color: #21867a;
-}
-
-/* Сообщения об ошибках (только в формах входа/регистрации) */
-.register-page .form-container .error-message,
-.login-page .form-container .error-message {
-  color: #d9534f;
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-/* ===================================== */
-/* Стили для страницы бронирования */
-
-/* Основной контейнер страницы бронирования */
-.reservation-page {
-  padding: 20px;
-  margin: 70px auto 20px; /* Отступ сверху для фиксированной шапки, центрирование страницы */
-  max-width: 800px;
-  box-sizing: border-box;
-  background: linear-gradient(to bottom right, #f0f9ff, #e0f2ff); /* Непринужденный градиентный фон */
-}
-
-/* Заголовок страницы бронирования */
-.reservation-page h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-  color: #333;
-}
-
-/* Вложенный контейнер, оформленный в виде карточки */
-.reservation-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  max-width: 500px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  margin: 0 auto;
-}
