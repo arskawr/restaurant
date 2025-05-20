@@ -1,5 +1,3 @@
-// src/components/LoginPage.js
-
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -50,11 +48,11 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-page">
-      <h1>Вход в систему</h1>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleLogin}>
-        <div>
+    <div className="auth-page">
+      <div className="auth-header">Вход в систему</div>
+      <div className="auth-box">
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleLogin}>
           <label>Номер телефона:</label>
           <input 
             type="text" 
@@ -63,8 +61,6 @@ const LoginPage = () => {
             placeholder="+37529 123 45 67"
             required
           />
-        </div>
-        <div>
           <label>Пароль:</label>
           <input 
             type="password" 
@@ -73,9 +69,9 @@ const LoginPage = () => {
             placeholder="Введите пароль"
             required
           />
-        </div>
-        <button type="submit">Войти</button>
-      </form>
+          <button type="submit">Войти</button>
+        </form>
+      </div>
     </div>
   );
 };

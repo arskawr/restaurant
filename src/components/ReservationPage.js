@@ -1,5 +1,3 @@
-// src/components/ReservationPage.js
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomTimePicker from './CustomTimePicker';
@@ -69,81 +67,74 @@ const ReservationPage = () => {
   };
 
   return (
-    <div
-      className="reservation-page"
-      style={{
-        
-      }}
-    >
+    <div className="reservation-page">
       <h1>Бронирование столика</h1>
       <div className="reservation-container">
-        <div className="reservation-form">
-          <h2>Введите ваши данные</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Фамилия:</label>
-              <input
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Ваша фамилия"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Имя:</label>
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="Ваше имя"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Номер телефона:</label>
-              <input
-                type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+375 29 815 47 51"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Дата:</label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Время:</label>
-              <CustomTimePicker value={time} onChange={setTime} />
-            </div>
-            <div className="form-group">
-              <label>Количество человек:</label>
-              <input
-                type="number"
-                value={people}
-                onChange={(e) => setPeople(Number(e.target.value))}
-                min="1"
-                max="30"
-                required
-              />
-            </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="submit-order">
-              Забронировать
-            </button>
-          </form>
-        </div>
+        <h2>Введите ваши данные</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Фамилия:</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Ваша фамилия"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Имя:</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Ваше имя"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Номер телефона:</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+375 29 123 45 67"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Дата:</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Время:</label>
+            <CustomTimePicker value={time} onChange={setTime} />
+          </div>
+          <div className="form-group">
+            <label>Количество человек:</label>
+            <input
+              type="number"
+              value={people}
+              onChange={(e) => setPeople(Number(e.target.value))}
+              min="1"
+              max="30"
+              required
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="submit-order">
+            Забронировать
+          </button>
+        </form>
       </div>
       {reservationPlaced && (
-        <div className="reservation-confirmation-overlay">
-          <div className="reservation-confirmation-modal">
+        <div className="order-confirmation-overlay">
+          <div className="order-confirmation-modal">
             <p>Ваша бронь оформлена</p>
             <button className="main-button" onClick={handleMainButton}>
               Главная

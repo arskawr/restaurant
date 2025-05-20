@@ -1,5 +1,3 @@
-// src/components/RegisterPage.js
-
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -61,11 +59,11 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-page">
-      <h1>Регистрация</h1>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleRegister}>
-        <div>
+    <div className="auth-page">
+      <div className="auth-header">Регистрация</div>
+      <div className="auth-box">
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleRegister}>
           <label>Номер телефона:</label>
           <input 
             type="text" 
@@ -74,8 +72,6 @@ const RegisterPage = () => {
             placeholder="+37529 123 45 67"
             required
           />
-        </div>
-        <div>
           <label>Имя:</label>
           <input 
             type="text" 
@@ -84,8 +80,6 @@ const RegisterPage = () => {
             placeholder="Введите ваше имя"
             required
           />
-        </div>
-        <div>
           <label>Пароль:</label>
           <input 
             type="password" 
@@ -94,9 +88,9 @@ const RegisterPage = () => {
             placeholder="Введите пароль"
             required
           />
-        </div>
-        <button type="submit">Зарегистрироваться</button>
-      </form>
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
     </div>
   );
 };
