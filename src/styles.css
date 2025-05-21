@@ -952,34 +952,72 @@ body {
 
 /* ===================================== */
 /* Новые стили для страницы бронирования */
-/* Фон на весь экран, современный и симпатичный контейнер */
+/* Стили для страницы бронирования */
 .reservation-page {
-  min-height: 100vh;            /* Фон занимает всю высоту экрана */
-  width: 100%;
-  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%); /* Современный градиент */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 100vh;
+  /* Добавляем нежный градиентный фон */
+  background: linear-gradient(to bottom right, #f0f9ff, #e0f2ff);
   padding: 20px;
 }
 
-/* Заголовок страницы бронирования */
-.reservation-page h1 {
-  font-size: 2.5rem;
-  color: #fff;
-  margin-bottom: 20px;
-  text-align: center;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-/* Контейнер для формы бронирования */
 .reservation-container {
   width: 100%;
-  max-width: 600px;
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  margin: 0 auto;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 20px;
+}
+
+/* Дополнительное оформление для заголовков и элементов формы */
+.reservation-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.reservation-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.reservation-container form > div {
+  margin-bottom: 15px;
+}
+
+.reservation-container label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.reservation-container input,
+.reservation-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.reservation-container button {
+  padding: 10px;
+  background-color: #2a9d8f;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.reservation-container button:hover {
+  background-color: #21867a;
 }
