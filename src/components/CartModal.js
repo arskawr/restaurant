@@ -63,7 +63,7 @@ const CartModal = ({ onClose }) => {
           )}
         </div>
         <div className="cart-modal-footer">
-          <div className="total">Итого: {getTotalPrice()}$</div>
+          <div className="total">Итого: {getTotalPrice()}p</div>
           {/* Выводим предупреждение, если оно есть */}
           {warning && <p className="warning-message">{warning}</p>}
           <button className="checkout-button" onClick={handleCheckout}>
