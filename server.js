@@ -1,4 +1,3 @@
-// server.js
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -12,10 +11,10 @@ app.use(cors());
 
 // Настройка подключения к MySQL (замените параметры на свои)
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '31214858',
-  database: 'spatkanne'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
 
 db.connect((err) => {
@@ -93,7 +92,7 @@ app.delete('/api/menu/:id', (req, res) => {
 app.post('/api/auth/register', (req, res) => {
   const { phone, name, password } = req.body;
   if (!phone || !name || !password) {
-    return res.status(400).json({ error: 'Заполните все поля' });
+    return res.status(400).json({ error: 'Заполните все необходимые поля' });
   }
   const trimmedPhone = phone.trim();
   const trimmedName = name.trim();
@@ -120,7 +119,12 @@ app.post('/api/auth/register', (req, res) => {
     const insertQuery = 'INSERT INTO users (phone, name, password, role) VALUES (?, ?, ?, ?)';
     db.query(insertQuery, [trimmedPhone, trimmedName, trimmedPassword, 'user'], (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: result.insertId, phone: trimmedPhone, name: trimmedName, role: 'user' });
+      res.status(201).json({ 
+        id: result.insertId, 
+        phone: trimmedPhone, 
+        name: trimmedName, 
+        role: 'user' 
+      });
     });
   });
 });
@@ -151,10 +155,14 @@ app.post('/api/auth/login', (req, res) => {
     if (user.password.trim() !== trimmedPassword) {
       return res.status(400).json({ error: 'Неверный пароль' });
     }
-    res.json({ id: user.id, phone: user.phone, name: user.name, role: user.role });
+    res.status(200).json({ 
+      id: user.id, 
+      phone: user.phone, 
+      name: user.name, 
+      role: user.role 
+    });
   });
 });
-
 
 
 // ---------------------- ORDERS ENDPOINTS -------------------------

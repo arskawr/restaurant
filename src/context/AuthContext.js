@@ -1,5 +1,3 @@
-// src/context/AuthContext.js
-
 import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext();
@@ -15,34 +13,26 @@ export const AuthProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, password }),
       });
-
-      // Получаем текстовый ответ для диагностики
-      const text = await res.text();
-      console.log("Ответ с API (текст):", text);
-
-      if (!text) {
-        throw new Error("Пустой ответ от сервера");
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error);
+        throw new Error(data.error);
       }
-
-      const data = JSON.parse(text);
       setUser(data);
       setError('');
       return data;
     } catch (err) {
       console.error('Ошибка в login:', err);
-      setError(err.message);
       throw err;
     }
   };
 
   const register = async ({ phone, name, password }) => {
-    const trimmedPhone = phone.trim();
-    const trimmedPassword = password.trim();
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: trimmedPhone, name, password: trimmedPassword }),
+        body: JSON.stringify({ phone, name, password }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -63,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, error, login, register, logout }}>
+    <AuthContext.Provider value={{ user, setUser, error, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

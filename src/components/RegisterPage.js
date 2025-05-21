@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
 const RegisterPage = () => {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, register } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [phone, setPhone] = useState('');
@@ -17,7 +17,6 @@ const RegisterPage = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     if (!phone || !name || !password) {
       setError('Все поля обязательны для заполнения.');
       return;
@@ -34,27 +33,12 @@ const RegisterPage = () => {
       setError('Пароль должен содержать не менее 6 символов.');
       return;
     }
-
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone: phone.trim(),
-          name: name.trim(),
-          password: password.trim()
-        })
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.error || 'Ошибка при регистрации');
-        return;
-      }
+      const data = await register({ phone: phone.trim(), name: name.trim(), password: password.trim() });
       setUser(data);
       navigate('/account');
     } catch (err) {
-      console.error('Registration error:', err);
-      setError('Ошибка при регистрации.');
+      setError(err.message);
     }
   };
 
@@ -65,24 +49,24 @@ const RegisterPage = () => {
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleRegister}>
           <label>Номер телефона:</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+37529 123 45 67"
             required
           />
           <label>Имя:</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Введите ваше имя"
             required
           />
           <label>Пароль:</label>
-          <input 
-            type="password" 
+          <input
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Введите пароль"
