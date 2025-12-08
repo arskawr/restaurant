@@ -36,11 +36,12 @@ const CategoryPage = () => {
   const filteredItems = menuItems.filter(item => item.category === category);
 
   // Определяем заголовок в зависимости от категории
-  const title = 
-    category === "salads" ? "Салаты" :
-    category === "snacks" ? "Закуски" :
-    category === "hot-dishes" ? "Горячие блюда" :
-    category === "desserts" ? "Дессерты" : "Меню";
+ const title = {
+  cakes: "Торты",
+  pastries: "Пирожные",
+  marshmallow: "Зефир и пастила",
+  chocolate: "Шоколадные конфеты"
+}[category] || "Ассортимент";
 
   if (loading) {
     return <div>Загрузка...</div>;

@@ -1,5 +1,4 @@
-/* ===================================== */
-/* ===== Общие стили ===== */
+/*  Общие стили  */
 * {
   margin: 0;
   padding: 0;
@@ -16,8 +15,7 @@ body {
   padding: 20px;
 }
 
-/* ===================================== */
-/* ============ Header ============ */
+/*  Header  */
 .site-header {
   position: fixed;
   top: 0;
@@ -80,12 +78,12 @@ body {
   cursor: pointer;
 }
 
-/* Кнопка "Еще" для мобильных – по умолчанию скрыта */
+/*  "Еще" для мобильных  */
 .menu-toggle {
   display: none;
 }
 
-/* --- Мобильные стили для Header (макс. ширина 768px) --- */
+/* Мобильные стили для Header  */
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
@@ -128,8 +126,7 @@ body {
   }
 }
 
-/* ===================================== */
-/* ===== Стили для hero-секции (главный баннер) ===== */
+/*  для hero-секции (главный баннер)  */
 .hero {
   position: relative;
   background-size: cover;
@@ -157,8 +154,7 @@ body {
   font-size: 24px;
 }
 
-/* ===================================== */
-/* Стили для блока меню на главной странице */
+/* для блока меню на главной странице */
 .menu-block {
   background-color: #f5f5dc;
   padding: 40px 20px;
@@ -214,8 +210,7 @@ body {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* ===================================== */
-/* Стили для страницы категории */
+/* для страницы категории */
 .category-page {
   padding: 20px;
   box-sizing: border-box;
@@ -284,8 +279,7 @@ body {
   color: #666;
 }
 
-/* ===================================== */
-/* Стили для управления количеством */
+/* для управления количеством */
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -320,7 +314,7 @@ body {
   text-align: center;
 }
 
-/* Обновленный стиль для кнопки добавления в корзину внутри food-details */
+/* стиль для кнопки добавления в корзину внутри food-details */
 .add-to-cart-btn {
   display: block;
   margin: 15px auto 0;
@@ -347,8 +341,8 @@ body {
   margin: auto;
 }
 
-/* ===================================== */
-/* Стили для модального окна корзины */
+
+/* для модального окна корзины */
 .cart-modal-overlay {
   position: fixed;
   top: 70px;
@@ -436,8 +430,8 @@ body {
   font-size: 16px;
 }
 
-/* ===================================== */
-/* Стили для страницы оформления заказа */
+
+/*  для страницы оформления заказа */
 .checkout-page {
   padding: 20px;
   margin-top: 0;
@@ -612,11 +606,11 @@ body {
   border-radius: 4px;
 }
 
-/* ===================================== */
-/* Современные стили для страницы бронирования */
+
+/*   для страницы бронирования */
 
 .reservation-page {
-  min-height: 100vh; /* Фон занимает всю высоту экрана */
+  min-height: 100vh; 
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -752,8 +746,7 @@ body {
 }
 
 
-/* ===================================== */
-/* Стили для страницы аккаунта */
+/*  для страницы аккаунта */
 .account-page {
   max-width: 800px;
   margin: 20px auto;
@@ -786,7 +779,6 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
-  /* Если хотите, можете задать дополнительное выравнивание или отступы */
 }
 
 .card {
@@ -794,7 +786,7 @@ body {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 15px;
-  width: 250px;  /* или другая фиксированная ширина */
+  width: 250px;  
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }
@@ -996,8 +988,7 @@ body {
   background: #218838;
 }
 
-/* ===================================== */
-/* Стили для компонента CustomTimePicker */
+/*  для компонента CustomTimePicker */
 .custom-time-picker {
   display: inline-flex;
   align-items: center;
@@ -1016,16 +1007,14 @@ body {
   font-weight: bold;
 }
 
-/* ===================================== */
-/* Итоговые общие стили для класса .error-message, если не переопределено */
+/* для класса .error-message */
 .error-message {
   color: red;
   text-align: center;
   margin-bottom: 1rem;
 }
 
-/* ===================================== */
-/* Стили для страниц авторизации и регистрации */
+/* для страниц авторизации и регистрации */
 .auth-page {
   display: flex;
   flex-direction: column;
@@ -1093,16 +1082,13 @@ body {
   margin-bottom: 1rem;
 }
 
-/* ===================================== */
-/* Новые стили для страницы бронирования */
-/* Стили для страницы бронирования */
+/*  для страницы бронирования */
 .reservation-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  /* Добавляем нежный градиентный фон */
   background: linear-gradient(to bottom right, #f0f9ff, #e0f2ff);
   padding: 20px;
 }
@@ -1117,7 +1103,7 @@ body {
   margin: 20px;
 }
 
-/* Дополнительное оформление для заголовков и элементов формы */
+/* для заголовков и элементов формы */
 .reservation-container h1 {
   text-align: center;
   color: #333;

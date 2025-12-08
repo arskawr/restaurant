@@ -148,7 +148,7 @@ const CheckoutPage = () => {
         <div className="order-confirmation-overlay">
           <div className="order-confirmation-modal">
             <p>Ваш заказ оформлен</p>
-            <p>Ожидайте заказ в течение 1ч20мин</p>
+            <p>Ожидайте заказ </p>
             <button className="main-button" onClick={handleMainButton}>
               Главная
             </button>

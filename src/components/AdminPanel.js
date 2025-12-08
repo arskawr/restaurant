@@ -6,11 +6,11 @@ import '../styles.css';
 const AdminPanel = () => {
   // Доступные категории
   const categories = [
-    { value: 'salads', label: 'Салаты' },
-    { value: 'snacks', label: 'Закуски' },
-    { value: 'hot-dishes', label: 'Горячие блюда' },
-    { value: 'desserts', label: 'Десерты' },
-  ];
+  { value: 'cakes', label: 'Торты' },
+  { value: 'pastries', label: 'Пирожные' },
+  { value: 'marshmallow', label: 'Зефир и пастила' },
+  { value: 'chocolate', label: 'Шоколадные конфеты' },
+];
 
   const [menuItems, setMenuItems] = useState([]);
   const [editedItem, setEditedItem] = useState(null);

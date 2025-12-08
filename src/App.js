@@ -17,6 +17,8 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { MenuProvider } from './context/MenuContext';  // Новый провайдер
 
+import WholesaleOrderPage from './components/WholesaleOrderPage'; // новый файл
+
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -35,7 +37,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/category/:category" element={<CategoryPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/reservation" element={<ReservationPage />} />
+                <Route path="/wholesale" element={<WholesaleOrderPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/account" element={<AccountPage />} />
