@@ -1,12 +1,10 @@
-// src/App.js
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import HomePage from './components/HomePage';
 import CategoryPage from './components/CategoryPage';
 import CheckoutPage from './components/CheckoutPage';
-import ReservationPage from './components/ReservationPage';
+import WholesaleOrderPage from './components/WholesaleOrderPage';
 import CartModal from './components/CartModal';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
@@ -15,9 +13,7 @@ import AdminPanel from './components/AdminPanel';
 
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
-import { MenuProvider } from './context/MenuContext';  // Новый провайдер
-
-import WholesaleOrderPage from './components/WholesaleOrderPage'; // новый файл
+import { MenuProvider } from './context/MenuContext';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);

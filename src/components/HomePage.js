@@ -5,63 +5,27 @@ import '../styles.css';
 const HomePage = () => {
   return (
     <div>
-      {/* Hero Section */}
-      <section
-        className="hero"
-        style={{
-          backgroundImage:
-            "url('https://webredox.net/demo/wp/candore/wp-content/uploads/2023/01/banner12-1.jpg')",
-        }}
-      >
+      <section className="hero" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1558317371-9383e297df74?w=1400')" }}>
         <div className="hero-overlay">
-          <h1>Изысканные блюда в Спатканне</h1>
-          <p>Сделайте заказ в два клика и наслаждайтесь высоким сервисом</p>
+          <h1>Сладкий Мир — Кондитерская фабрика</h1>
+          <p>Свежие торты, пирожные и конфеты с производства</p>
         </div>
       </section>
 
-      {/* Меню — блок с категориями */}
       <section className="menu-block">
-        <h2>Меню</h2>
-        <div className="menu-items">
-          <Link
-            to="/category/salads"
-            className="menu-item"
-            style={{
-              backgroundImage:
-                "url('https://barashek.kg/wp-content/uploads/2020/11/Svekolnyj-salat-s-syrom-burrata.-Ovoshhnye.-Salaty..jpg')",
-            }}
-          >
-            <span>Салаты</span>
+        <h2 className="centered-title">Ассортимент</h2>
+        <div className="menu-items centered-menu">
+          <Link to="/category/cakes" className="menu-item" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800')" }}>
+            <span>Торты</span>
           </Link>
-          <Link
-            to="/category/snacks"
-            className="menu-item"
-            style={{
-              backgroundImage:
-                "url('/images/photo_2025-05-12_17-36-35.jpg')",
-            }}
-          >
-            <span>Закуски</span>
+          <Link to="/category/pastries" className="menu-item" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1558326569-68034e9b9efa?w=800')" }}>
+            <span>Пирожные</span>
           </Link>
-          <Link
-            to="/category/hot-dishes"
-            className="menu-item"
-            style={{
-              backgroundImage:
-                "url('https://club.mysamson.ru/upload/iblock/567/vmu1kmem84noqq4k9i7rm92ju96jevhw.webp')",
-            }}
-          >
-            <span>Горячие блюда</span>
+          <Link to="/category/marshmallow" className="menu-item" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1622621722311-3d5e28e6b94d?w=800')" }}>
+            <span>Зефир</span>
           </Link>
-          <Link
-            to="/category/desserts"
-            className="menu-item"
-            style={{
-              backgroundImage:
-                "url('/images/photo_1_2025-05-12_17-36-28.jpg')",
-            }}
-          >
-            <span>Дессерты</span>
+          <Link to="/category/chocolate" className="menu-item" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1548907042-5975c4e6e8c8?w=800')" }}>
+            <span>Шоколад</span>
           </Link>
         </div>
       </section>

@@ -1,8 +1,8 @@
 {
   "rewrites": [
-    { "source": "/api/auth/login", "destination": "/api/auth/login.js" },
-    { "source": "/api/auth/register", "destination": "/api/auth/register.js" },
-    { "source": "/api/menu/:id*", "destination": "/api/menu.js" },
-    { "source": "/api/orders/:id*", "destination": "/api/orders.js" }
+    { "source": "/api/login", "destination": "/api/login.js" },
+    { "source": "/api/register", "destination": "/api/register.js" },
+    { "source": "/api/menu/:path*", "destination": "/api/menu.js" },
+    { "source": "/api/orders/:path*", "destination": "/api/orders.js" }
   ]
 }

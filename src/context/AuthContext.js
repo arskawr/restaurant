@@ -8,52 +8,61 @@ export const AuthProvider = ({ children }) => {
 
   const login = async ({ phone, password }) => {
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, password }),
+        body: JSON.stringify({ phone: phone.trim(), password: password.trim() }),
       });
+
       const data = await res.json();
+
       if (!res.ok) {
-        setError(data.error);
-        throw new Error(data.error);
+        setError(data.error || 'Ошибка входа');
+        throw new Error(data.error || 'Ошибка входа');
       }
+
       setUser(data);
       setError('');
       return data;
     } catch (err) {
-      console.error('Ошибка в login:', err);
+      const message = err.message || 'Нет соединения с сервером';
+      setError(message);
       throw err;
     }
   };
 
   const register = async ({ phone, name, password }) => {
     try {
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, name, password }),
+        body: JSON.stringify({ phone: phone.trim(), name: name.trim(), password: password.trim() }),
       });
+
       const data = await res.json();
+
       if (!res.ok) {
-        setError(data.error);
-        throw new Error(data.error);
+        setError(data.error || 'Ошибка регистрации');
+        throw new Error(data.error || 'Ошибка регистрации');
       }
+
       setUser(data);
       setError('');
       return data;
     } catch (err) {
-      console.error('Ошибка регистрации:', err);
+      const message = err.message || 'Нет соединения с сервером';
+      setError(message);
       throw err;
     }
   };
 
   const logout = () => {
     setUser(null);
+    setError('');
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, error, login, register, logout }}>
+    <AuthContext.Provider value={{ user, setUser, error, setError, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,10 +8,12 @@ export const MenuProvider = ({ children }) => {
 
   const fetchMenuItems = async () => {
     try {
-      const res = await fetch('/api/menu'); // прокси перенаправит запрос на порт 5000
+      const res = await fetch('/api/menu');
       if (res.ok) {
         const data = await res.json();
         setMenuItems(data);
+      } else {
+        console.error('Ошибка API:', res.status);
       }
     } catch (error) {
       console.error('Ошибка при получении меню:', error);
@@ -24,10 +26,7 @@ export const MenuProvider = ({ children }) => {
     fetchMenuItems();
   }, []);
 
-  // Функция для обновления меню, которую вы можете вызвать после изменений
-  const updateMenu = () => {
-    fetchMenuItems();
-  };
+  const updateMenu = () => fetchMenuItems();
 
   return (
     <MenuContext.Provider value={{ menuItems, loading, updateMenu, setMenuItems }}>

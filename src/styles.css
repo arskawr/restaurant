@@ -1150,3 +1150,26 @@ body {
 .reservation-container button:hover {
   background-color: #21867a;
 }
+
+.centered {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.centered-title {
+  text-align: center;
+}
+
+.centered-menu {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
