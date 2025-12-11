@@ -1,11 +1,10 @@
-import { Pool } from 'pg';
-import { parse } from 'url';
+import { Pool } from '@neondatabase/serverless';
+import ws from 'ws';
+import { neonConfig } from '@neondatabase/serverless';
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-  max: 20,
-});
+neonConfig.webSocketConstructor = ws;
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export default async function handler(req, res) {
   const { pathname } = parse(req.url, true);
