@@ -16,9 +16,7 @@ const pool = new Pool({
 
 
 
-export default async function handler(req, res) {
-  // остальной код без изменений
-}
+
 
 
 

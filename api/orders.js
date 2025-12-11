@@ -1,10 +1,20 @@
 import { Pool } from 'pg';
-import { parse } from 'url';
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  ssl: {
+    rejectUnauthorized: false
+  },
+  max: 10, // ограничиваем соединения для serverless
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
+
+
 
 export default async function handler(req, res) {
   const { pathname } = parse(req.url, true);
