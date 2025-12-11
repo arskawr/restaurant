@@ -44,7 +44,6 @@ const FoodCard = ({ item }) => {
         <p className="food-price">{item.price}</p>
         <p className="food-composition">{item.composition}</p>
         {quantity === 0 ? (
-          // Кнопка с иконкой, расположенная внизу блока food-details
           <button
             className="add-to-cart-btn"
             onClick={handleAddClick}
