@@ -1,64 +1,47 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import '../styles.css';
 
 const AccountPage = () => {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [orderHistory, setOrderHistory] = useState([]);
-  const [loadingOrders, setLoadingOrders] = useState(true);
-  const [ordersError, setOrdersError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user && user.id) {
+    if (user) {
       fetch(`/api/orders/${user.id}`)
         .then(res => res.json())
-        .then(data => {
-          setOrderHistory(data);
-          setLoadingOrders(false);
-        })
-        .catch(err => {
-          setOrdersError(err.message);
-          setLoadingOrders(false);
-        });
-    } else {
-      setLoadingOrders(false);
+        .then(data => setOrderHistory(data))
+        .finally(() => setLoading(false));
     }
   }, [user]);
 
-  if (!user) return <div>Войдите в аккаунт</div>;
+  if (!user) {
+    return (
+      <div className="centered">
+        <h2>Войдите в аккаунт</h2>
+        <Link to="/login">Войти</Link> | <Link to="/register">Регистрация</Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="account-page">
-      <h2>Личный кабинет — Сладкий Мир</h2>
-      <p>Имя: {user.name}</p>
-      <p>Телефон: {user.phone}</p>
-      <p>Роль: {user.role}</p>
+    <div className="centered">
+      <h2>Личный кабинет</h2>
+      <p>Привет, {user.name}!</p>
       <button onClick={logout}>Выйти</button>
-
-      <h2>История заказов кондитерских изделий</h2>
-      {loadingOrders && <p>Загрузка...</p>}
-      {ordersError && <p>Ошибка: {ordersError}</p>}
-      {orderHistory.length > 0 ? (
-        <div className="order-history">
-          {orderHistory.map(order => (
-            <div key={order.id} className="order-item">
-              <p><strong>Заказ ID:</strong> {order.id}</p>
-              <p><strong>Дата:</strong> {new Date(order.created_at).toLocaleString()}</p>
-              <p><strong>Итого:</strong> {order.total}р</p>
-              <p><strong>Заказ:</strong> {order.items}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>Заказов пока нет.</p>
+      <h3>История заказов</h3>
+      {loading ? <p>Загрузка...</p> : orderHistory.length === 0 ? <p>Нет заказов</p> : (
+        orderHistory.map(order => (
+          <div key={order.id}>
+            <p>Заказ №{order.id} от {new Date(order.created_at).toLocaleDateString()}</p>
+            <p>Сумма: {order.total}</p>
+          </div>
+        ))
       )}
-      {user.role === 'admin' && (
-        <div className="admin-panel-link">
-          <h2>Панель администратора</h2>
-          <Link to="/admin" className="admin-link">Редактировать ассортимент</Link>
-        </div>
-      )}
+      {user.role === 'admin' && <Link to="/admin">Админ-панель</Link>}
     </div>
   );
 };
