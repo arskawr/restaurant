@@ -1,5 +1,3 @@
-// src/components/LoginPage.js
-
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -15,15 +13,11 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!phone || !password) {
-      setError('Заполните все поля');
-      return;
-    }
     try {
       await login({ phone, password });
       navigate('/account');
     } catch (err) {
-      setError(err.message || 'Ошибка входа');
+      setError(err.message || 'Ошибка сервера');
     }
   };
 

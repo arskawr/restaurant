@@ -21,6 +21,8 @@ const AccountPage = () => {
           setOrdersError(err.message);
           setLoadingOrders(false);
         });
+    } else {
+      setLoadingOrders(false);
     }
   }, [user]);
 
@@ -35,15 +37,15 @@ const AccountPage = () => {
       <button onClick={logout}>Выйти</button>
 
       <h2>История заказов кондитерских изделий</h2>
-      if (loadingOrders) <p>Загрузка...</p>
-      if (ordersError) <p>Ошибка: {ordersError}</p>
+      {loadingOrders && <p>Загрузка...</p>}
+      {ordersError && <p>Ошибка: {ordersError}</p>}
       {orderHistory.length > 0 ? (
         <div className="order-history">
           {orderHistory.map(order => (
             <div key={order.id} className="order-item">
               <p><strong>Заказ ID:</strong> {order.id}</p>
               <p><strong>Дата:</strong> {new Date(order.created_at).toLocaleString()}</p>
-              <p><strong>Итого:</strong> {order.total}</p>
+              <p><strong>Итого:</strong> {order.total}р</p>
               <p><strong>Заказ:</strong> {order.items}</p>
             </div>
           ))}
