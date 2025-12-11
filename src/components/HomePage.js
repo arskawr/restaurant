@@ -14,7 +14,7 @@ const HomePage = () => {
 
       <section className="menu-block">
         <h2 className="centered-title">Ассортимент</h2>
-        <div className="menu-items centered-menu">
+        <div className="centered-menu menu-items">
           <Link to="/category/cakes" className="menu-item" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800')" }}>
             <span>Торты</span>
           </Link>

@@ -25,7 +25,7 @@ const CategoryPage = () => {
     category === "marshmallow" ? "Зефир и пастила" :
     category === "chocolate" ? "Шоколадные конфеты" : "Ассортимент";
 
-  if (loading) return <div className="loading">Загрузка меню...</div>;
+  if (loading) return <div className="loading">Загрузка...</div>;
   if (error) return <div className="error">Ошибка: {error}</div>;
 
   return (

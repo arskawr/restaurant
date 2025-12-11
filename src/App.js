@@ -10,7 +10,6 @@ import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import AccountPage from './components/AccountPage';
 import AdminPanel from './components/AdminPanel';
-
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { MenuProvider } from './context/MenuContext';

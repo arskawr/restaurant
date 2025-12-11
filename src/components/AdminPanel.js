@@ -1,256 +1,118 @@
-// src/components/AdminPanel.js
-
 import React, { useState, useEffect } from 'react';
 import '../styles.css';
 
 const AdminPanel = () => {
-  // Доступные категории
   const categories = [
-  { value: 'cakes', label: 'Торты' },
-  { value: 'pastries', label: 'Пирожные' },
-  { value: 'marshmallow', label: 'Зефир и пастила' },
-  { value: 'chocolate', label: 'Шоколадные конфеты' },
-];
+    { value: 'cakes', label: 'Торты' },
+    { value: 'pastries', label: 'Пирожные' },
+    { value: 'marshmallow', label: 'Зефир и пастила' },
+    { value: 'chocolate', label: 'Шоколадные конфеты' },
+  ];
 
   const [menuItems, setMenuItems] = useState([]);
   const [editedItem, setEditedItem] = useState(null);
-  // Поле composition для нового блюда
   const [newItem, setNewItem] = useState({
     name: '',
     price: '',
     image: '',
-    category: 'salads',
-    composition: ''
+    category: 'cakes',
+    composition: '',
   });
-
-  // Загружаем блюда при монтировании компонента
-  useEffect(() => {
-    fetchMenuItems();
-  }, []);
 
   const fetchMenuItems = async () => {
     try {
       const res = await fetch('/api/menu');
-      if (res.ok) {
-        const data = await res.json();
-        setMenuItems(data);
-      } else {
-        console.error("Ошибка при загрузке меню:", res.statusText);
-      }
-    } catch (error) {
-      console.error("Ошибка запроса:", error);
+      const data = await res.json();
+      setMenuItems(data);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const handleEdit = (item) => {
-    setEditedItem({ ...item });
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
+
+  const handleEditItem = (item) => {
+    setEditedItem(item);
   };
 
-  const handleSaveEdit = async () => {
-    console.log("Сохраняем редактирование. Отправляем данные:", editedItem);
+  const handleUpdateItem = async () => {
     try {
-      const res = await fetch(`/api/menu/${editedItem.id}`, {
+      await fetch(`/api/menu/${editedItem.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editedItem)
+        body: JSON.stringify(editedItem),
       });
-      if (res.ok) {
-        const updatedItem = await res.json();
-        console.log("Ответ сервера после обновления:", updatedItem);
-        await fetchMenuItems();
-        setEditedItem(null);
-      } else {
-        const errorData = await res.json();
-        alert("Ошибка обновления: " + errorData.error);
-      }
-    } catch (error) {
-      console.error("Ошибка при сохранении изменений:", error);
+      fetchMenuItems();
+      setEditedItem(null);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const handleCancelEdit = () => {
-    setEditedItem(null);
-  };
-
-  const handleDelete = async (id) => {
+  const handleDeleteItem = async (id) => {
     try {
-      const res = await fetch(`/api/menu/${id}`, { method: 'DELETE' });
-      if (res.ok) {
-        setMenuItems(menuItems.filter(item => item.id !== id));
-      } else {
-        const errorData = await res.json();
-        alert("Ошибка удаления: " + errorData.error);
-      }
-    } catch (error) {
-      console.error("Ошибка при удалении:", error);
+      await fetch(`/api/menu/${id}`, { method: 'DELETE' });
+      fetchMenuItems();
+    } catch (err) {
+      console.error(err);
     }
   };
 
   const handleAddItem = async () => {
-    if (!newItem.name || !newItem.price || !newItem.image) {
-      alert('Заполните все поля для нового блюда.');
-      return;
-    }
     try {
-      const res = await fetch('/api/menu', {
+      await fetch('/api/menu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newItem)
+        body: JSON.stringify(newItem),
       });
-      if (res.ok) {
-        const addedItem = await res.json();
-        console.log("Добавленное блюдо:", addedItem);
-        setMenuItems([...menuItems, addedItem]);
-        setNewItem({ name: '', price: '', image: '', category: 'salads', composition: '' });
-      } else {
-        const errorData = await res.json();
-        alert("Ошибка добавления: " + errorData.error);
-      }
-    } catch (error) {
-      console.error("Ошибка при добавлении блюда:", error);
+      fetchMenuItems();
+      setNewItem({ name: '', price: '', image: '', category: 'cakes', composition: '' });
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
     <div className="admin-panel">
-      <h1>Панель администратора</h1>
-      <h2>Редактирование меню</h2>
-      <div className="menu-items-list">
-        <table className="menu-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Название</th>
-              <th>Цена</th>
-              <th>Категория</th>
-              <th>Изображение</th>
-              <th>Состав</th>
-              <th>Действия</th>
-            </tr>
-          </thead>
-          <tbody>
-            {menuItems.map(item => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>
-                  {editedItem && editedItem.id === item.id ? (
-                    <input
-                      type="text"
-                      value={editedItem.name}
-                      onChange={(e) => setEditedItem({ ...editedItem, name: e.target.value })}
-                    />
-                  ) : (
-                    item.name
-                  )}
-                </td>
-                <td>
-                  {editedItem && editedItem.id === item.id ? (
-                    <input
-                      type="text"
-                      value={editedItem.price}
-                      onChange={(e) => setEditedItem({ ...editedItem, price: e.target.value })}
-                    />
-                  ) : (
-                    item.price
-                  )}
-                </td>
-                <td>
-                  {editedItem && editedItem.id === item.id ? (
-                    <select
-                      value={editedItem.category}
-                      onChange={(e) => setEditedItem({ ...editedItem, category: e.target.value })}
-                    >
-                      {categories.map(cat => (
-                        <option key={cat.value} value={cat.value}>
-                          {cat.label}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    categories.find(cat => cat.value === item.category)?.label || item.category
-                  )}
-                </td>
-                <td>
-                  {editedItem && editedItem.id === item.id ? (
-                    <input
-                      type="text"
-                      value={editedItem.image}
-                      onChange={(e) => setEditedItem({ ...editedItem, image: e.target.value })}
-                    />
-                  ) : (
-                    <img src={item.image} alt={item.name} className="admin-item-img" />
-                  )}
-                </td>
-                <td>
-                  {editedItem && editedItem.id === item.id ? (
-                    <input
-                      type="text"
-                      value={editedItem.composition || ''}
-                      onChange={(e) => setEditedItem({ ...editedItem, composition: e.target.value })}
-                    />
-                  ) : (
-                    item.composition || '-'
-                  )}
-                </td>
-                <td>
-                  {editedItem && editedItem.id === item.id ? (
-                    <>
-                      <button onClick={handleSaveEdit}>Сохранить</button>
-                      <button onClick={handleCancelEdit}>Отмена</button>
-                    </>
-                  ) : (
-                    <>
-                      <button onClick={() => handleEdit(item)}>Редактировать</button>
-                      <button onClick={() => handleDelete(item.id)}>Удалить</button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <h2>Панель администратора кондитерской фабрики</h2>
+      <div className="menu-list">
+        <h3>Ассортимент изделий</h3>
+        {menuItems.map(item => (
+          <div key={item.id} className="menu-item">
+            <p>Название: {item.name}</p>
+            <p>Цена: {item.price}</p>
+            <p>Категория: {categories.find(c => c.value === item.category)?.label}</p>
+            <p>Состав: {item.composition}</p>
+            <button onClick={() => handleEditItem(item)}>Редактировать</button>
+            <button onClick={() => handleDeleteItem(item.id)}>Удалить</button>
+          </div>
+        ))}
       </div>
-
-      {/* Форма для добавления нового блюда */}
-      <div className="add-menu-item">
-        <h3>Добавить блюдо</h3>
-        <div className="add-menu-item-form">
-          <input
-            type="text"
-            placeholder="Название блюда"
-            value={newItem.name}
-            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Цена"
-            value={newItem.price}
-            onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="URL изображения"
-            value={newItem.image}
-            onChange={(e) => setNewItem({ ...newItem, image: e.target.value })}
-          />
-          <select
-            value={newItem.category}
-            onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-          >
-            {categories.map(cat => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
-              </option>
-            ))}
+      {editedItem && (
+        <div className="edit-form">
+          <h3>Редактировать изделие</h3>
+          <input value={editedItem.name} onChange={e => setEditedItem({...editedItem, name: e.target.value})} />
+          <input value={editedItem.price} onChange={e => setEditedItem({...editedItem, price: e.target.value})} />
+          <input value={editedItem.image} onChange={e => setEditedItem({...editedItem, image: e.target.value})} />
+          <select value={editedItem.category} onChange={e => setEditedItem({...editedItem, category: e.target.value})}>
+            {categories.map(cat => <option key={cat.value} value={cat.value}>{cat.label}</option>)}
           </select>
-          <input
-            type="text"
-            placeholder="Состав блюда"
-            value={newItem.composition}
-            onChange={(e) => setNewItem({ ...newItem, composition: e.target.value })}
-          />
-          <button onClick={handleAddItem}>Добавить блюдо</button>
+          <input value={editedItem.composition} onChange={e => setEditedItem({...editedItem, composition: e.target.value})} />
+          <button onClick={handleUpdateItem}>Сохранить</button>
         </div>
+      )}
+      <div className="add-form">
+        <h3>Добавить новое изделие</h3>
+        <input placeholder="Название" value={newItem.name} onChange={e => setNewItem({...newItem, name: e.target.value})} />
+        <input placeholder="Цена" value={newItem.price} onChange={e => setNewItem({...newItem, price: e.target.value})} />
+        <input placeholder="URL изображения" value={newItem.image} onChange={e => setNewItem({...newItem, image: e.target.value})} />
+        <select value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})}>
+          {categories.map(cat => <option key={cat.value} value={cat.value}>{cat.label}</option>)}
+        </select>
+        <input placeholder="Состав" value={newItem.composition} onChange={e => setNewItem({...newItem, composition: e.target.value})} />
+        <button onClick={handleAddItem}>Добавить</button>
       </div>
     </div>
   );

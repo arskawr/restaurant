@@ -1,5 +1,3 @@
-// src/components/AccountPage.js
-
 import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -13,86 +11,50 @@ const AccountPage = () => {
 
   useEffect(() => {
     if (user && user.id) {
-      console.log('Запрашиваем историю заказов для пользователя с id:', user.id);
       fetch(`/api/orders/${user.id}`)
-        .then((res) => {
-          console.log('Статус ответа при получении заказов:', res.status);
-          if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
-          return res.json();
-        })
-        .then((data) => {
-          console.log('Получены заказы:', data);
-          const ordersArray = Array.isArray(data) ? data : [data];
-          setOrderHistory(ordersArray);
+        .then(res => res.json())
+        .then(data => {
+          setOrderHistory(data);
           setLoadingOrders(false);
         })
-        .catch((error) => {
-          console.error('Ошибка при получении заказов:', error);
-          setOrdersError(error.message);
+        .catch(err => {
+          setOrdersError(err.message);
           setLoadingOrders(false);
         });
     }
   }, [user]);
 
-  if (!user) {
-    return (
-      <div className="account-page">
-        <h2>Вы не авторизованы</h2>
-        <div className="auth-links">
-          <Link to="/login" className="auth-link">Войти</Link>
-          <span> / </span>
-          <Link to="/register" className="auth-link">Зарегистрироваться</Link>
-        </div>
-      </div>
-    );
-  }
+  if (!user) return <div>Войдите в аккаунт</div>;
 
   return (
     <div className="account-page">
-      <div className="account-header">
-        <h1>Личный кабинет</h1>
-        <div className="user-info">
-          <p>Привет, {user.name}!</p>
-          <button onClick={logout} className="logout-button">Выйти</button>
+      <h2>Личный кабинет — Сладкий Мир</h2>
+      <p>Имя: {user.name}</p>
+      <p>Телефон: {user.phone}</p>
+      <p>Роль: {user.role}</p>
+      <button onClick={logout}>Выйти</button>
+
+      <h2>История заказов кондитерских изделий</h2>
+      if (loadingOrders) <p>Загрузка...</p>
+      if (ordersError) <p>Ошибка: {ordersError}</p>
+      {orderHistory.length > 0 ? (
+        <div className="order-history">
+          {orderHistory.map(order => (
+            <div key={order.id} className="order-item">
+              <p><strong>Заказ ID:</strong> {order.id}</p>
+              <p><strong>Дата:</strong> {new Date(order.created_at).toLocaleString()}</p>
+              <p><strong>Итого:</strong> {order.total}</p>
+              <p><strong>Заказ:</strong> {order.items}</p>
+            </div>
+          ))}
         </div>
-      </div>
-      <div className="account-section">
-        <h2>История заказов</h2>
-        {loadingOrders ? (
-          <p>Загрузка истории заказов...</p>
-        ) : ordersError ? (
-          <p>Ошибка: {ordersError}</p>
-        ) : orderHistory.length ? (
-          <div className="card-container">
-            {orderHistory.map((order) => {
-              let orderDisplay = "";
-              try {
-                const parsedItems = JSON.parse(order.items);
-                orderDisplay = parsedItems.map(item => item.name).join(', ');
-              } catch(err) {
-                orderDisplay = order.items;
-              }
-              return (
-                <div key={order.id} className="card">
-                  <h3>Заказ #{order.id}</h3>
-                  <p>
-                    <strong>Дата:</strong>{" "}
-                    {order.created_at ? new Date(order.created_at).toLocaleDateString() : '-'}
-                  </p>
-                  <p><strong>Итого:</strong> {order.total}</p>
-                  <p><strong>Заказ:</strong> {orderDisplay}</p>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <p>Заказов пока нет.</p>
-        )}
-      </div>
+      ) : (
+        <p>Заказов пока нет.</p>
+      )}
       {user.role === 'admin' && (
         <div className="admin-panel-link">
           <h2>Панель администратора</h2>
-          <Link to="/admin" className="admin-link">Редактировать меню</Link>
+          <Link to="/admin" className="admin-link">Редактировать ассортимент</Link>
         </div>
       )}
     </div>

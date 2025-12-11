@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   const { pathname } = parse(req.url, true);
   const parts = pathname.split('/');
 
-  if (req.method === 'POST' && parts.length === 3 && parts[2] === '') {
+  if (req.method === 'POST' && pathname === '/api/orders') {
     const { user_id, items, total } = req.body;
     try {
       const result = await pool.query(
@@ -21,8 +21,8 @@ export default async function handler(req, res) {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-  } else if (req.method === 'GET' && parts.length === 4 && !isNaN(parts[3])) {
-    const userId = parts[3];
+  } else if (req.method === 'GET' && pathname.startsWith('/api/orders/')) {
+    const userId = pathname.split('/')[3];
     try {
       const result = await pool.query('SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC', [userId]);
       res.status(200).json(result.rows);
