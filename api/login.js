@@ -1,13 +1,32 @@
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  ssl: {
+    rejectUnauthorized: false
+  },
+  max: 10, // ограничиваем соединения для serverless
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
+
+
+
+export default async function handler(req, res) {
+  // остальной код без изменений
+}
+
+
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+    console.log('Подключение к БД настроено');
+
   }
 
   const { phone, password } = req.body;
