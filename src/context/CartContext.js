@@ -28,7 +28,7 @@ export const CartProvider = ({ children }) => {
   const getTotalPrice = useCallback(() => {
     return cartItems
       .reduce((sum, item) => {
-        const priceNumber = parseFloat(item.price.replace('$', ''));
+        const priceNumber = parseFloat(item.price.replace('р', ''));
         return sum + priceNumber * item.quantity;
       }, 0)
       .toFixed(2);

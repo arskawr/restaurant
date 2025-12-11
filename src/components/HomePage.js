@@ -5,7 +5,7 @@ import '../styles.css';
 const HomePage = () => {
   return (
     <div>
-      <section className="hero" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1558317371-9383e297df74?w=1400')" }}>
+      <section className="hero" style={{ backgroundImage: "url('C:\Users\арс\OneDrive\Рабочий стол\курсовая\vid-speredi-sokoladnyi-keks-s-kakao-poroskom-i-kopiei-prostranstva.jpg')" }}>
         <div className="hero-overlay">
           <h1>Сладкий Мир — Кондитерская фабрика</h1>
           <p>Свежие торты, пирожные и конфеты с производства</p>

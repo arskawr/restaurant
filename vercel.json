@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/api/login", "destination": "/api/login.js" },
-    { "source": "/api/register", "destination": "/api/register.js" },
-    { "source": "/api/menu/:path*", "destination": "/api/menu.js" },
-    { "source": "/api/orders/:path*", "destination": "/api/orders.js" }
-  ]
-}

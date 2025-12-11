@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import FoodCard from './FoodCard';
-import { MenuContext } from '../context/MenuContext';
+import FoodCard from './FoodCard.js';
+import { MenuContext } from '../context/MenuContext.js';
 import '../styles.css';
 
 const CategoryPage = () => {

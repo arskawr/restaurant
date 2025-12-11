@@ -15,7 +15,7 @@ const WholesaleOrderPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Здесь можно добавить fetch на /api/wholesale, но для простоты — просто успех
+    // Здесь fetch на /api/wholesale, но симулируем
     setSuccess(true);
   };
 

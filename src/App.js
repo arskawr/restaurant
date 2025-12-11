@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import HomePage from './components/HomePage';
-import CategoryPage from './components/CategoryPage';
-import CheckoutPage from './components/CheckoutPage';
-import WholesaleOrderPage from './components/WholesaleOrderPage';
-import CartModal from './components/CartModal';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
-import AccountPage from './components/AccountPage';
-import AdminPanel from './components/AdminPanel';
-import { CartProvider } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext';
-import { MenuProvider } from './context/MenuContext';
- 
+import Header from './components/Header.js';
+import HomePage from './components/HomePage.js';
+import CategoryPage from './components/CategoryPage.js';
+import CheckoutPage from './components/CheckoutPage.js';
+import WholesaleOrderPage from './components/WholesaleOrderPage.js';
+import CartModal from './components/CartModal.js';
+import LoginPage from './components/LoginPage.js';
+import RegisterPage from './components/RegisterPage.js';
+import AccountPage from './components/AccountPage.js';
+import AdminPanel from './components/AdminPanel.js';
+import { CartProvider } from './context/CartContext.js';
+import { AuthProvider } from './context/AuthContext.js';
+import { MenuProvider } from './context/MenuContext.js';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
-
 
   return (
     <AuthProvider>

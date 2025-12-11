@@ -44,8 +44,8 @@ const AdminPanel = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editedItem),
       });
-      fetchMenuItems();
       setEditedItem(null);
+      fetchMenuItems();
     } catch (err) {
       console.error(err);
     }
@@ -67,8 +67,8 @@ const AdminPanel = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem),
       });
-      fetchMenuItems();
       setNewItem({ name: '', price: '', image: '', category: 'cakes', composition: '' });
+      fetchMenuItems();
     } catch (err) {
       console.error(err);
     }
@@ -76,20 +76,34 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-panel">
-      <h2>Панель администратора кондитерской фабрики</h2>
-      <div className="menu-list">
-        <h3>Ассортимент изделий</h3>
-        {menuItems.map(item => (
-          <div key={item.id} className="menu-item">
-            <p>Название: {item.name}</p>
-            <p>Цена: {item.price}</p>
-            <p>Категория: {categories.find(c => c.value === item.category)?.label}</p>
-            <p>Состав: {item.composition}</p>
-            <button onClick={() => handleEditItem(item)}>Редактировать</button>
-            <button onClick={() => handleDeleteItem(item.id)}>Удалить</button>
-          </div>
-        ))}
-      </div>
+      <h2>Админ-панель: Управление ассортиментом кондитерских изделий</h2>
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Категория</th>
+            <th>Состав</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          {menuItems.map(item => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>{item.price}</td>
+              <td>{item.category}</td>
+              <td>{item.composition}</td>
+              <td>
+                <button onClick={() => handleEditItem(item)}>Редактировать</button>
+                <button onClick={() => handleDeleteItem(item.id)}>Удалить</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {editedItem && (
         <div className="edit-form">
           <h3>Редактировать изделие</h3>

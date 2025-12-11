@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { CartContext } from '../context/CartContext';
-import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext.js';
+import { AuthContext } from '../context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
@@ -29,32 +29,31 @@ const CheckoutPage = () => {
     if (!validateInputs()) return;
 
     try {
-      const itemsStr = cartItems.map(item => `${item.name} x${item.quantity}`).join(', ');
-      const total = getTotalPrice();
-
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: user.id, items: itemsStr, total }),
+        body: JSON.stringify({
+          user_id: user ? user.id : null,
+          items: cartItems,
+          total: getTotalPrice(),
+        }),
       });
 
-      if (!res.ok) throw new Error('Ошибка сохранения заказа');
+      if (!res.ok) throw new Error('Ошибка заказа');
 
-      const data = await res.json();
-      setOrderId(data.id);
-      clearCart();
+      const { id } = await res.json();
+      setOrderId(id);
       setOrderPlaced(true);
+      clearCart();
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Ошибка сервера');
     }
   };
 
   const handleMainButton = () => navigate('/');
 
-  if (!user) return <div>Войдите в аккаунт для заказа</div>;
-
   return (
-    <div className="checkout-container">
+    <div className="checkout-container centered">
       <h2>Оформление заказа кондитерских изделий</h2>
       <div className="checkout-form">
         <form onSubmit={handleSubmit}>

@@ -1,15 +1,12 @@
-// src/components/FoodCard.js
-
 import React, { useContext, useEffect, useState } from 'react';
-import { CartContext } from '../context/CartContext';
+import { CartContext } from '../context/CartContext.js';
 import '../styles.css';
-import cartIcon from './cart.png'; // Ваш значок корзины
+import cartIcon from './cart.png'; // Иконка
 
 const FoodCard = ({ item }) => {
   const [quantity, setQuantity] = useState(0);
   const { updateCartItem } = useContext(CartContext);
 
-  // Обновляем корзину при изменении количества
   useEffect(() => {
     updateCartItem(item, quantity);
   }, [item, quantity, updateCartItem]);
@@ -41,7 +38,7 @@ const FoodCard = ({ item }) => {
       ></div>
       <div className="food-details">
         <h3>{item.name}</h3>
-        <p className="food-price">{item.price}</p>
+        <p className="food-price">{item.price}р</p>
         <p className="food-composition">{item.composition}</p>
         {quantity === 0 ? (
           <button

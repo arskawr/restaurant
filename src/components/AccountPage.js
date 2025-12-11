@@ -1,11 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.js';
 import '../styles.css';
 
 const AccountPage = () => {
   const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,7 +36,7 @@ const AccountPage = () => {
         orderHistory.map(order => (
           <div key={order.id}>
             <p>Заказ №{order.id} от {new Date(order.created_at).toLocaleDateString()}</p>
-            <p>Сумма: {order.total}</p>
+            <p>Сумма: {order.total}р</p>
           </div>
         ))
       )}
