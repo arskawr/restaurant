@@ -13,7 +13,7 @@ import AdminPanel from './components/AdminPanel';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { MenuProvider } from './context/MenuContext';
-import WelcomeModal from './components/WelcomeModal';
+ 
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -29,7 +29,6 @@ function App() {
           <Router>
             <Header onCartOpen={openCart} />
             {isCartOpen && <CartModal onClose={closeCart} />}
-            {showWelcome && <WelcomeModal onClose={() => setShowWelcome(false)} />}
             <div className="main-content">
               <Routes>
                 <Route path="/" element={<HomePage />} />

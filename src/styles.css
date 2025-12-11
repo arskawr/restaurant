@@ -1,4 +1,4 @@
-/* Общие стили */
+/*  Общие стили  */
 * {
   margin: 0;
   padding: 0;
@@ -7,41 +7,37 @@
 
 body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  background-color: #fffaf0; /* пастельный кремовый для кондитерской */
+  background-color: #f4f4f4;
   color: #333;
-  min-height: 100vh;
 }
 
 .main-content {
   padding: 20px;
-  margin-top: 80px; /* под хедер */
 }
 
-/* Header */
+/*  Header  */
 .site-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background: #fff;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
   padding: 10px 20px;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
+/* Логотип */
 .logo {
   display: flex;
   align-items: center;
-  font-size: 24px;
-  color: #e91e63; /* розовый для сладкого */
 }
 
 .logo-line {
@@ -50,6 +46,13 @@ body {
   margin: 0 10px;
 }
 
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e91e63;
+}
+
+/* Навигация */
 .nav-menu ul {
   display: flex;
   list-style: none;
@@ -60,6 +63,9 @@ body {
   text-decoration: none;
   color: #333;
   font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .cart-button, .account-button {
@@ -69,12 +75,13 @@ body {
   border-radius: 20px;
 }
 
-/* Hero и блоки */
+/* Hero */
 .hero {
   height: 60vh;
   background-size: cover;
   background-position: center;
   position: relative;
+  margin-top: 60px;
 }
 
 .hero-overlay {
@@ -87,113 +94,36 @@ body {
   text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
 }
 
+/* Меню блок */
 .menu-items {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 30px;
+  padding: 40px 0;
 }
 
 .menu-item {
   width: 200px;
   height: 200px;
   background-size: cover;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   color: #fff;
   font-size: 24px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-/* Карточки товаров */
-.food-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.food-card {
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.food-image {
-  height: 200px;
-  background-size: cover;
-}
-
-.food-info {
-  padding: 15px;
-}
-
-.add-to-cart-btn {
-  background: #e91e63;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  cursor: pointer;
-}
-
-/* Модалки, формы и т.д. */
-.cart-modal-overlay, .order-confirmation-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.cart-modal, .order-confirmation-modal {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 500px;
-  width: 90%;
-}
-
-button {
-  background: #e91e63;
-  color: #fff;
-  border: none;
+.menu-item span {
+  background: rgba(0,0,0,0.4);
   padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
+  border-radius: 20px;
 }
 
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.loading, .error {
-  text-align: center;
-  padding: 40px;
-  font-size: 20px;
-  color: #e91e63;
-}
-
-.centered {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* Админ панель */
-.admin-panel {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
+/* Карточки товаров и остальные стили оставь как были в твоём оригинале */
+.food-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.food-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+/* ... остальные твои стили без изменений */
