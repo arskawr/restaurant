@@ -1174,7 +1174,7 @@ body {
   font-size: 18px;
 }
 
-/* Общие стили */
+/*  Общие стили  */
 * {
   margin: 0;
   padding: 0;
@@ -1187,7 +1187,11 @@ body {
   color: #333;
 }
 
-/* Header */
+.main-content {
+  padding: 20px;
+}
+
+/*  Header  */
 .site-header {
   position: fixed;
   top: 0;
@@ -1595,7 +1599,7 @@ body {
   margin-top: 10px;
 }
 
-/* Reservation / Wholesale */
+/* Wholesale / Reservation */
 .reservation-container {
   padding: 40px 20px;
   max-width: 600px;

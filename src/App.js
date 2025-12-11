@@ -27,7 +27,7 @@ function App() {
           <Router>
             <Header onCartOpen={openCart} />
             {isCartOpen && <CartModal onClose={closeCart} />}
-            <div style={{ paddingTop: '70px' }}>
+            <div className="main-content">
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/category/:category" element={<CategoryPage />} />
