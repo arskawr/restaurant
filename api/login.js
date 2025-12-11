@@ -1,30 +1,23 @@
-import { Pool } from 'pg';
+import { Client } from 'pg';
 
-const pool = new Pool({
-  host: process.env.PGHOST,
-  port: process.env.PGPORT,
-  database: process.env.PGDATABASE,
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  ssl: {
-    rejectUnauthorized: false
-  },
-  max: 10, // ограничиваем соединения для serverless
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
-
-
-
-
-
-
+async function getClient() {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    host: process.env.PGHOST,
+    port: process.env.PGPORT || 5432,
+    database: process.env.PGDATABASE,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    ssl: { rejectUnauthorized: false },
+    connectionTimeoutMillis: 5000,
+  });
+  await client.connect();
+  return client;
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
-    console.log('Подключение к БД настроено');
-
   }
 
   const { phone, password } = req.body;
@@ -33,8 +26,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Заполните все поля' });
   }
 
+  const client = await getClient();
+
   try {
-    const result = await pool.query('SELECT * FROM users WHERE phone = $1', [phone.trim()]);
+    const result = await client.query('SELECT * FROM users WHERE phone = $1', [phone.trim()]);
     
     if (result.rows.length === 0) {
       return res.status(400).json({ error: 'Пользователь не найден' });
@@ -53,7 +48,9 @@ export default async function handler(req, res) {
       role: user.role || 'user'
     });
   } catch (err) {
-    console.error(err);
+    console.error('DB error in login:', err);
     res.status(500).json({ error: 'Ошибка сервера' });
+  } finally {
+    await client.end();
   }
 }

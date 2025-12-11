@@ -20,7 +20,7 @@ function App() {
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
-  const [showWelcome, setShowWelcome] = useState(true);
+
 
   return (
     <AuthProvider>
